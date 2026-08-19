@@ -3,649 +3,872 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kapsalon Breda — Vakmanschap & Stijl</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+<title>Restaria Ginnekenees — Snackbar in Breda</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Work+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
-:root{
-  --bg:#0c0b09;
-  --surface:#131210;
-  --surface2:#1a1814;
-  --cream:#f2ece0;
-  --cream2:#d8d0c0;
-  --gold:#b8924a;
-  --gold2:#d4ac6a;
-  --gold3:rgba(184,146,74,0.15);
-  --stone:#6b6560;
-  --line:rgba(184,146,74,0.12);
-  --line2:rgba(184,146,74,0.25);
-}
+  :root{
+    --paper: #F6EEDC;
+    --paper-2: #EFE3C6;
+    --ink: #2A2118;
+    --mustard: #E3A233;
+    --mustard-dark: #C4841E;
+    --maroon: #A62C28;
+    --maroon-dark: #7E1F1D;
+    --herb: #5C7A45;
+    --cream-card: #FBF6E9;
+    --line: rgba(42,33,24,0.16);
+    --radius: 4px;
+  }
 
-html{scroll-behavior:smooth;scrollbar-width:thin;scrollbar-color:var(--gold) var(--bg)}
-body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--cream);overflow-x:hidden;cursor:none}
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
 
-/* CURSOR */
-#cur{width:6px;height:6px;background:var(--gold);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .25s,height .25s,opacity .25s}
-#cur.big{width:40px;height:40px;background:transparent;border:1px solid var(--gold);opacity:.7}
+  body{
+    margin:0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Work Sans', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
 
-/* NAV */
-nav{position:fixed;top:0;width:100%;z-index:500;height:72px;display:flex;justify-content:space-between;align-items:center;padding:0 64px;border-bottom:1px solid var(--line);background:rgba(12,11,9,.85);backdrop-filter:blur(20px)}
-.logo{font-family:'Cormorant',serif;font-size:22px;font-weight:400;color:var(--cream);text-decoration:none;letter-spacing:.06em}
-.logo em{color:var(--gold);font-style:italic}
-.nav-links{display:flex;gap:40px;list-style:none}
-.nav-links a{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--stone);text-decoration:none;transition:.2s}
-.nav-links a:hover{color:var(--gold2)}
-.nav-cta{padding:10px 28px;border:1px solid var(--line2);color:var(--gold);font-size:11px;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;transition:.2s}
-.nav-cta:hover{background:var(--gold);color:var(--bg)}
+  h1,h2,h3, .display{
+    font-family: 'Bungee', system-ui, sans-serif;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    line-height: 1.05;
+    margin: 0;
+  }
 
-/* HERO */
-.hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;padding-top:72px;position:relative;overflow:hidden}
-.hero-left{display:flex;flex-direction:column;justify-content:center;padding:80px 64px;position:relative;z-index:2}
-.hero-right{position:relative;overflow:hidden}
-.hero-right::before{content:'';position:absolute;inset:0;background:linear-gradient(to right,var(--bg) 0%,transparent 40%);z-index:1;pointer-events:none}
-.hero-right img{width:100%;height:100%;object-fit:cover;object-position:center top;opacity:.65;filter:saturate(.7) contrast(1.05)}
+  .mono{
+    font-family: 'JetBrains Mono', monospace;
+  }
 
-.hero-kicker{display:inline-flex;align-items:center;gap:12px;margin-bottom:32px;opacity:0;animation:fadeUp .8s .1s forwards}
-.hero-kicker span{font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--gold)}
-.hero-kicker::before{content:'';width:32px;height:1px;background:var(--gold)}
+  a{ color: inherit; }
 
-.hero h1{font-family:'Cormorant',serif;font-size:clamp(60px,6.5vw,96px);font-weight:300;line-height:1.0;margin-bottom:32px;opacity:0;animation:fadeUp .9s .22s forwards}
-.hero h1 em{display:block;font-style:italic;color:var(--gold2)}
-.hero h1 strong{display:block;font-weight:300;font-style:normal}
+  img, svg{ display:block; max-width:100%; }
 
-.hero-body{font-size:15px;font-weight:300;color:var(--stone);line-height:1.9;max-width:420px;margin-bottom:48px;opacity:0;animation:fadeUp .9s .38s forwards}
+  .wrap{
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
 
-.hero-actions{display:flex;align-items:center;gap:28px;opacity:0;animation:fadeUp .9s .5s forwards}
-.btn-primary{padding:16px 44px;background:var(--gold);color:var(--bg);font-size:11px;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;transition:.25s;font-family:'Outfit',sans-serif;font-weight:500}
-.btn-primary:hover{background:var(--gold2);transform:translateY(-2px)}
-.btn-link{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--stone);text-decoration:none;border-bottom:1px solid var(--line2);padding-bottom:2px;transition:.2s}
-.btn-link:hover{color:var(--gold);border-color:var(--gold)}
+  /* ---------- checker strip, the signature motif ---------- */
+  .checker{
+    height: 14px;
+    width: 100%;
+    background-image:
+      linear-gradient(45deg, var(--ink) 25%, transparent 25%, transparent 75%, var(--ink) 75%),
+      linear-gradient(45deg, var(--ink) 25%, transparent 25%, transparent 75%, var(--ink) 75%);
+    background-size: 14px 14px;
+    background-position: 0 0, 7px 7px;
+    background-color: var(--mustard);
+  }
+  .checker.reverse{
+    background-color: var(--maroon);
+  }
 
-.hero-scroll{position:absolute;bottom:40px;left:64px;display:flex;align-items:center;gap:14px;opacity:0;animation:fadeUp .9s .7s forwards}
-.hero-scroll span{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--stone)}
-.scroll-line{width:48px;height:1px;background:var(--gold);position:relative;overflow:hidden}
-.scroll-line::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:var(--cream);animation:scrollAnim 2s 1.2s infinite}
+  /* ---------- header ---------- */
+  header{
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--paper);
+  }
 
-/* MARQUEE */
-.marquee-bar{background:var(--gold);padding:14px 0;overflow:hidden;white-space:nowrap}
-.marquee-inner{display:inline-flex;gap:0;animation:marquee 18s linear infinite}
-.marquee-item{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--bg);font-weight:500;padding:0 48px}
-.marquee-dot{color:rgba(12,11,9,.4)}
+  .nav-row{
+    display:flex;
+    align-items:center;
+    justify-content: space-between;
+    padding: 16px 24px;
+    max-width: 1120px;
+    margin: 0 auto;
+  }
 
-/* SECTION BASE */
-.section-wrap{padding:120px 64px;max-width:1280px;margin:0 auto}
-.eyebrow{display:flex;align-items:center;gap:16px;margin-bottom:64px}
-.eyebrow span{font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--gold)}
-.eyebrow::after{content:'';flex:1;height:1px;background:var(--line)}
-.section-title{font-family:'Cormorant',serif;font-size:clamp(38px,4vw,58px);font-weight:300;line-height:1.1;margin-bottom:20px}
-.section-title em{color:var(--gold);font-style:italic}
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-family:'Bungee';
+    font-size: 20px;
+    color: var(--maroon-dark);
+  }
+  .brand .dot{
+    width:10px; height:10px; border-radius:50%;
+    background: var(--herb);
+    box-shadow: 0 0 0 3px var(--paper), 0 0 0 4px var(--herb);
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse{
+    0%,100%{ opacity:1; }
+    50%{ opacity:0.35; }
+  }
 
-/* TEAM */
-.team-section{padding:120px 0;background:var(--surface)}
-.team-inner{max-width:1280px;margin:0 auto;padding:0 64px}
-.team-grid{display:flex;flex-direction:column;gap:0}
+  nav ul{
+    list-style:none;
+    display:flex;
+    gap: 28px;
+    margin:0; padding:0;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  nav a{
+    text-decoration:none;
+    border-bottom: 2px solid transparent;
+    padding-bottom: 3px;
+    transition: border-color .15s ease, color .15s ease;
+  }
+  nav a:hover{ border-color: var(--maroon); color: var(--maroon-dark); }
+  nav a:focus-visible{ outline: 2px solid var(--maroon); outline-offset: 3px; }
 
-.kapper{display:grid;grid-template-columns:1fr 1fr;min-height:600px;border-top:1px solid var(--line)}
-.kapper.flip{direction:rtl}
-.kapper.flip > *{direction:ltr}
+  .nav-cta{
+    display: inline-block;
+    background: var(--maroon);
+    color: var(--cream-card);
+    font-weight: 700;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 10px 18px;
+    border-radius: var(--radius);
+    text-decoration: none;
+    box-shadow: 3px 3px 0 var(--ink);
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .nav-cta:hover{ transform: translate(-2px,-2px); box-shadow: 5px 5px 0 var(--ink); }
+  .nav-cta:focus-visible{ outline: 2px solid var(--ink); outline-offset: 3px; }
 
-.kapper-visual{position:relative;overflow:hidden}
-.kapper-visual img{width:100%;height:100%;object-fit:cover;object-position:center top;transition:transform .8s ease;filter:saturate(.75)}
-.kapper-visual:hover img{transform:scale(1.04)}
-.kapper-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(12,11,9,.5) 0%,transparent 60%);pointer-events:none}
-.kapper-num{position:absolute;top:36px;left:36px;font-family:'Cormorant',serif;font-size:72px;font-weight:300;color:rgba(184,146,74,.18);line-height:1;pointer-events:none}
-.kapper-badge{position:absolute;bottom:32px;left:32px;background:var(--gold);color:var(--bg);font-size:10px;letter-spacing:.18em;text-transform:uppercase;padding:8px 18px;font-weight:500}
+  .menu-toggle{ display:none; }
 
-.kapper-info{display:flex;flex-direction:column;justify-content:center;padding:72px 80px;background:var(--surface2)}
-.kapper-tag{font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin-bottom:20px}
-.kapper-info h2{font-family:'Cormorant',serif;font-size:clamp(44px,4.5vw,68px);font-weight:300;line-height:.95;margin-bottom:8px}
-.kapper-info h2 em{display:block;font-style:italic;color:var(--gold2)}
-.kapper-line{width:48px;height:1px;background:var(--gold);margin:28px 0}
-.kapper-info p{font-size:15px;font-weight:300;line-height:1.9;color:var(--stone);margin-bottom:10px;max-width:360px}
-.kapper-skills{display:flex;flex-wrap:wrap;gap:8px;margin:28px 0 40px}
-.skill-tag{padding:6px 14px;border:1px solid var(--line2);font-size:11px;letter-spacing:.1em;color:var(--stone);transition:.2s}
-.skill-tag:hover{border-color:var(--gold);color:var(--gold2)}
-.kapper-link{display:inline-flex;align-items:center;gap:10px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--cream2);text-decoration:none;border-bottom:1px solid var(--line2);padding-bottom:3px;transition:.2s}
-.kapper-link:hover{color:var(--gold);border-color:var(--gold)}
+  @media (max-width: 760px){
+    nav ul{ display:none; }
+    .menu-toggle{
+      display:block;
+      background:none; border: 2px solid var(--ink); border-radius: var(--radius);
+      padding: 8px 10px; font-family:'Bungee'; font-size:12px; cursor:pointer;
+    }
+    .nav-row{ flex-wrap: wrap; }
+  }
 
-/* DIENSTEN */
-.diensten-section{padding:120px 0;background:var(--bg)}
-.diensten-inner{max-width:1280px;margin:0 auto;padding:0 64px}
+  /* ---------- hero ---------- */
+  .hero{
+    position: relative;
+    background: var(--maroon);
+    color: var(--cream-card);
+    padding: 72px 0 56px;
+    overflow: hidden;
+  }
+  .hero::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image: radial-gradient(circle, rgba(255,255,255,0.08) 1.5px, transparent 1.5px);
+    background-size: 22px 22px;
+    pointer-events:none;
+  }
+  .hero-grid{
+    position:relative;
+    display:grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 48px;
+    align-items:center;
+  }
+  @media (max-width: 860px){
+    .hero-grid{ grid-template-columns: 1fr; }
+  }
 
-.price-tabs{display:flex;gap:0;border-bottom:1px solid var(--line);margin-bottom:64px}
-.price-tab{padding:14px 32px;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--stone);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;background:none;border-top:none;border-left:none;border-right:none;font-family:'Outfit',sans-serif;transition:.2s;color:var(--stone)}
-.price-tab:hover{color:var(--cream2)}
-.price-tab.on{color:var(--gold);border-bottom-color:var(--gold)}
+  .eyebrow-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    background: var(--mustard);
+    color: var(--ink);
+    font-family:'JetBrains Mono';
+    font-weight:600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 6px 12px;
+    border-radius: 999px;
+    margin-bottom: 22px;
+  }
+  .eyebrow-badge .blob{
+    width:7px;height:7px;border-radius:50%;background: var(--herb);
+  }
 
-.price-panel{display:none}
-.price-panel.on{display:block}
-.price-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:2px}
+  .hero h1{
+    font-size: clamp(38px, 6vw, 64px);
+    color: #fff;
+    text-shadow: 3px 3px 0 var(--maroon-dark);
+  }
+  .hero h1 span{
+    display:block;
+    color: var(--mustard);
+    text-shadow: 3px 3px 0 var(--ink);
+  }
 
-.price-card{background:var(--surface);padding:44px 40px;border:1px solid var(--line);position:relative;overflow:hidden;transition:.3s}
-.price-card::after{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;background:var(--gold);transition:.4s}
-.price-card:hover{border-color:var(--line2);transform:translateY(-3px)}
-.price-card:hover::after{width:100%}
-.price-card.featured{border-color:var(--line2);background:var(--surface2)}
-.price-card.featured::before{content:'Populair';position:absolute;top:0;right:0;background:var(--gold);color:var(--bg);font-size:9px;letter-spacing:.2em;text-transform:uppercase;padding:6px 14px;font-weight:500}
-.pc-num{font-family:'Cormorant',serif;font-size:13px;font-style:italic;color:var(--gold);margin-bottom:18px;display:block}
-.pc-name{font-family:'Cormorant',serif;font-size:26px;font-weight:400;color:var(--cream);margin-bottom:12px}
-.pc-desc{font-size:13px;font-weight:300;color:var(--stone);line-height:1.8;margin-bottom:32px}
-.pc-bottom{display:flex;justify-content:space-between;align-items:flex-end;border-top:1px solid var(--line);padding-top:24px}
-.pc-dur{font-size:11px;letter-spacing:.14em;color:var(--stone);text-transform:uppercase}
-.pc-price{font-family:'Cormorant',serif;font-size:36px;font-weight:300;color:var(--gold2);line-height:1}
-.pc-price sup{font-size:16px;vertical-align:top;margin-top:6px;display:inline-block}
+  .hero p.lede{
+    margin-top: 20px;
+    font-size: 18px;
+    max-width: 46ch;
+    color: rgba(255,255,255,0.88);
+  }
 
-/* TESTIMONIALS */
-.reviews-section{padding:120px 0;background:var(--surface);overflow:hidden}
-.reviews-inner{max-width:1280px;margin:0 auto;padding:0 64px}
+  .hero-actions{
+    margin-top: 30px;
+    display:flex;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
 
-.reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:64px}
-.review-card{background:var(--surface2);padding:48px 40px;border:1px solid var(--line);position:relative;transition:.3s}
-.review-card:hover{border-color:var(--line2)}
-.review-card::before{content:'\201C';font-family:'Cormorant',serif;font-size:120px;font-weight:300;color:var(--gold3);position:absolute;top:16px;left:32px;line-height:1;pointer-events:none}
-.review-stars{display:flex;gap:4px;margin-bottom:28px;position:relative;z-index:1}
-.star{width:14px;height:14px;background:var(--gold);clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%)}
-.review-text{font-size:15px;font-weight:300;line-height:1.9;color:var(--cream2);margin-bottom:36px;position:relative;z-index:1;font-style:italic;font-family:'Cormorant',serif;font-size:18px}
-.review-author{display:flex;align-items:center;gap:14px;border-top:1px solid var(--line);padding-top:24px}
-.review-avatar{width:40px;height:40px;border-radius:50%;background:var(--gold3);border:1px solid var(--line2);display:flex;align-items:center;justify-content:center;font-family:'Cormorant',serif;font-size:16px;color:var(--gold)}
-.review-name{font-size:13px;font-weight:500;color:var(--cream);letter-spacing:.04em}
-.review-meta{font-size:11px;color:var(--stone);margin-top:2px;letter-spacing:.06em}
+  .btn-primary{
+    background: var(--mustard);
+    color: var(--ink);
+    font-weight: 700;
+    padding: 14px 26px;
+    border-radius: var(--radius);
+    text-decoration:none;
+    box-shadow: 4px 4px 0 var(--ink);
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .btn-primary:hover{ transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--ink); }
+  .btn-primary:focus-visible{ outline: 2px solid #fff; outline-offset: 3px; }
 
-/* STATS */
-.stats-row{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-.stat{padding:56px 40px;text-align:center;border-right:1px solid var(--line);position:relative;overflow:hidden}
-.stat:last-child{border-right:none}
-.stat::before{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:0;height:2px;background:var(--gold);transition:.4s}
-.stat:hover::before{width:60%}
-.stat strong{font-family:'Cormorant',serif;font-size:60px;font-weight:300;color:var(--gold2);display:block;line-height:1;margin-bottom:8px}
-.stat span{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--stone)}
+  .btn-ghost{
+    border: 2px solid rgba(255,255,255,0.55);
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: var(--radius);
+    text-decoration:none;
+    font-weight: 600;
+    transition: border-color .15s ease, background .15s ease;
+  }
+  .btn-ghost:hover{ border-color:#fff; background: rgba(255,255,255,0.08); }
+  .btn-ghost:focus-visible{ outline: 2px solid #fff; outline-offset: 3px; }
 
-/* AFSPRAAK */
-.form-section{padding:120px 0;background:var(--bg)}
-.form-inner{max-width:700px;margin:0 auto;padding:0 64px}
-.form-section .section-title{text-align:center;margin-bottom:12px}
-.form-intro{text-align:center;font-size:15px;font-weight:300;color:var(--stone);line-height:1.8;margin-bottom:56px}
+  /* stamp badge — signature element */
+  .stamp{
+    position: relative;
+    justify-self: center;
+    width: 230px;
+    height: 230px;
+    border: 3px dashed rgba(255,255,255,0.75);
+    border-radius: 50%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    color:#fff;
+    transform: rotate(-8deg);
+    animation: float 5s ease-in-out infinite;
+  }
+  @keyframes float{
+    0%,100%{ transform: rotate(-8deg) translateY(0); }
+    50%{ transform: rotate(-8deg) translateY(-8px); }
+  }
+  .stamp .score{
+    font-family:'Bungee';
+    font-size: 52px;
+    line-height: 1;
+    color: var(--mustard);
+  }
+  .stamp .stars{
+    letter-spacing: 3px;
+    margin: 8px 0 6px;
+    font-size: 18px;
+    color: var(--mustard);
+  }
+  .stamp .count{
+    font-family:'JetBrains Mono';
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    opacity: 0.85;
+  }
+  .stamp .top-label{
+    position:absolute;
+    top: 26px;
+    font-family:'JetBrains Mono';
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    opacity: 0.8;
+  }
+  @media (prefers-reduced-motion: reduce){
+    .stamp, .brand .dot{ animation: none; }
+  }
 
-.form-card{background:var(--surface);border:1px solid var(--line);padding:56px 64px}
-.fg{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-.field{display:flex;flex-direction:column;gap:8px}
-.field.full{grid-column:1/-1}
-label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--stone)}
-input,select{width:100%;padding:14px 18px;background:rgba(255,255,255,.04);border:1px solid var(--line);color:var(--cream);font-size:14px;font-family:'Outfit',sans-serif;outline:none;transition:.2s;appearance:none;-webkit-appearance:none}
-input:focus,select:focus{border-color:var(--gold);background:rgba(184,146,74,.05)}
-select option{background:var(--surface2);color:var(--cream)}
-.btn-submit{width:100%;margin-top:28px;padding:18px;background:var(--gold);color:var(--bg);border:none;font-size:12px;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;transition:.25s;font-family:'Outfit',sans-serif;font-weight:500}
-.btn-submit:hover{background:var(--gold2)}
-#melding{margin-top:20px;text-align:center;font-size:14px;font-weight:300;color:var(--gold2);min-height:20px;line-height:1.6}
+  /* ---------- info strip ---------- */
+  .info-strip{
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .info-row{
+    display:grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+  }
+  @media (max-width: 760px){
+    .info-row{ grid-template-columns: repeat(2, 1fr); }
+  }
+  .info-item{
+    padding: 22px 24px;
+    border-right: 1px solid rgba(255,255,255,0.12);
+  }
+  .info-item:last-child{ border-right:none; }
+  .info-item .label{
+    font-family:'JetBrains Mono';
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--mustard);
+    margin-bottom: 6px;
+  }
+  .info-item .value{
+    font-weight: 600;
+    font-size: 15px;
+  }
+  .info-item .value.open{ color: #93C572; }
 
-/* FOOTER */
-footer{background:#07060504;border-top:1px solid var(--line);padding:80px 64px 40px}
-.footer-top{display:grid;grid-template-columns:2.5fr 1fr 1fr 1fr;gap:60px;padding-bottom:56px;border-bottom:1px solid var(--line);margin-bottom:40px}
-.footer-brand .logo{display:inline-block;margin-bottom:16px}
-.footer-brand p{font-size:14px;font-weight:300;line-height:1.9;color:var(--stone);max-width:280px}
-.fc h3{font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin-bottom:20px}
-.fc p,.fc a{font-size:14px;font-weight:300;line-height:2.2;color:var(--stone);text-decoration:none;display:block;transition:.2s}
-.fc a:hover{color:var(--gold2)}
-.footer-bottom{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
-.footer-bottom p{font-size:12px;color:rgba(242,236,224,.2);letter-spacing:.06em}
-.footer-cta{padding:12px 28px;border:1px solid var(--line2);color:var(--gold);font-size:10px;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;transition:.2s}
-.footer-cta:hover{background:var(--gold);color:var(--bg)}
+  /* ---------- section shell ---------- */
+  section{ padding: 84px 0; }
+  .section-head{
+    text-align:center;
+    max-width: 620px;
+    margin: 0 auto 48px;
+  }
+  .section-head .kicker{
+    font-family:'JetBrains Mono';
+    text-transform:uppercase;
+    letter-spacing: 0.14em;
+    font-size: 12px;
+    color: var(--maroon);
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  .section-head h2{
+    font-size: clamp(28px, 4vw, 40px);
+    color: var(--ink);
+  }
+  .section-head p{
+    margin-top: 14px;
+    font-size: 16px;
+    color: rgba(42,33,24,0.72);
+  }
 
-/* REVEAL */
-.reveal{opacity:0;transform:translateY(36px);transition:opacity .8s ease,transform .8s ease}
-.reveal.in{opacity:1;transform:translateY(0)}
-.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}
+  /* ---------- about ---------- */
+  .about-grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 56px;
+    align-items:center;
+  }
+  @media (max-width: 820px){ .about-grid{ grid-template-columns: 1fr; } }
 
-@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
-@keyframes marquee{to{transform:translateX(-50%)}}
-@keyframes scrollAnim{to{left:100%}}
+  .about-copy p{
+    font-size: 16px;
+    line-height: 1.7;
+    color: rgba(42,33,24,0.85);
+    margin: 0 0 16px;
+  }
+  .about-copy p:last-child{ margin-bottom:0; }
 
-/* MOBILE */
-@media(max-width:960px){
-  nav{padding:0 24px}
-  .nav-links,.nav-cta{display:none}
-  .hero{grid-template-columns:1fr;min-height:auto}
-  .hero-left{padding:80px 24px 60px}
-  .hero-right{height:60vw}
-  .hero-scroll{left:24px}
-  .team-inner,.diensten-inner,.reviews-inner,.form-inner{padding:0 24px}
-  .section-wrap{padding:80px 24px}
-  .kapper{grid-template-columns:1fr}
-  .kapper.flip{direction:ltr}
-  .kapper-info{padding:48px 28px}
-  .price-grid{grid-template-columns:1fr}
-  .reviews-grid{grid-template-columns:1fr}
-  .stats-row{grid-template-columns:1fr 1fr}
-  .stat{border-right:none;border-bottom:1px solid var(--line)}
-  .stats-row .stat:nth-child(2n){border-right:none}
-  .fg{grid-template-columns:1fr}
-  .field.full{grid-column:1}
-  .form-card{padding:36px 24px}
-  footer{padding:60px 24px 36px}
-  .footer-top{grid-template-columns:1fr;gap:36px}
-  .price-tabs{overflow-x:auto}
-  #cur{display:none}
-}
+  .ticket{
+    background: var(--cream-card);
+    border: 1.5px solid var(--line);
+    border-radius: var(--radius);
+    padding: 30px 26px;
+    position:relative;
+    box-shadow: 6px 6px 0 rgba(42,33,24,0.08);
+  }
+  .ticket::before, .ticket::after{
+    content:"";
+    position:absolute;
+    width: 22px; height: 22px;
+    background: var(--paper);
+    border-radius:50%;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .ticket::before{ left: -11px; }
+  .ticket::after{ right: -11px; }
+  .ticket ul{ list-style:none; margin:0; padding:0; }
+  .ticket li{
+    display:flex;
+    justify-content:space-between;
+    padding: 10px 0;
+    border-bottom: 1px dashed var(--line);
+    font-family:'JetBrains Mono';
+    font-size: 14px;
+  }
+  .ticket li:last-child{ border-bottom:none; }
+  .ticket .tname{ color: var(--ink); font-weight: 600; }
+  .ticket .tval{ color: var(--maroon); font-weight: 700; }
+  .ticket-title{
+    font-family:'Bungee';
+    font-size: 15px;
+    text-align:center;
+    margin-bottom: 18px;
+    color: var(--maroon-dark);
+  }
+
+  /* ---------- menu ---------- */
+  .menu-tabs{
+    display:flex;
+    justify-content:center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+  }
+  .tab-btn{
+    font-family:'JetBrains Mono';
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight:600;
+    background: var(--cream-card);
+    border: 1.5px solid var(--line);
+    color: var(--ink);
+    padding: 9px 18px;
+    border-radius: 999px;
+    cursor:pointer;
+    transition: all .15s ease;
+  }
+  .tab-btn:hover{ border-color: var(--maroon); }
+  .tab-btn.active{
+    background: var(--maroon);
+    color: var(--cream-card);
+    border-color: var(--maroon);
+  }
+  .tab-btn:focus-visible{ outline: 2px solid var(--maroon); outline-offset: 2px; }
+
+  .menu-panel{ display:none; }
+  .menu-panel.active{ display:block; }
+
+  .menu-list{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px 40px;
+  }
+  @media (max-width: 700px){ .menu-list{ grid-template-columns: 1fr; } }
+
+  .menu-item{
+    display:flex;
+    justify-content:space-between;
+    align-items: baseline;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .menu-item .mi-name{
+    font-weight: 600;
+    font-size: 16px;
+  }
+  .menu-item .mi-desc{
+    font-size: 13px;
+    color: rgba(42,33,24,0.6);
+    margin-top: 3px;
+  }
+  .menu-item .mi-price{
+    font-family:'JetBrains Mono';
+    font-weight: 700;
+    color: var(--maroon);
+    white-space: nowrap;
+  }
+  .mi-left{ flex: 1; }
+  .dots{
+    flex: 0 1 30px;
+    border-bottom: 1px dotted var(--line);
+    margin-bottom: 6px;
+    display:none;
+  }
+
+  /* ---------- reviews ---------- */
+  .reviews-strip{ background: var(--paper-2); }
+  .review-grid{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  @media (max-width: 860px){ .review-grid{ grid-template-columns: 1fr; } }
+
+  .review-card{
+    background: var(--cream-card);
+    border-radius: var(--radius);
+    padding: 26px;
+    border: 1.5px solid var(--line);
+    position: relative;
+  }
+  .review-card .stars{
+    color: var(--mustard-dark);
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+    font-size: 15px;
+  }
+  .review-card p{
+    font-size: 15px;
+    line-height: 1.6;
+    color: rgba(42,33,24,0.85);
+    margin: 0 0 16px;
+  }
+  .review-card .reviewer{
+    font-family:'JetBrains Mono';
+    font-size: 12px;
+    color: rgba(42,33,24,0.55);
+    font-weight: 600;
+  }
+
+  .rating-summary{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap: 40px;
+    margin-bottom: 44px;
+    flex-wrap: wrap;
+  }
+  .rs-num{
+    font-family:'Bungee';
+    font-size: 56px;
+    color: var(--maroon);
+  }
+  .rs-side .stars{ color: var(--mustard-dark); letter-spacing: 3px; font-size: 20px; }
+  .rs-side .count{ font-family:'JetBrains Mono'; font-size: 13px; color: rgba(42,33,24,0.6); margin-top:4px; }
+
+  /* ---------- location ---------- */
+  .location-grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items:stretch;
+  }
+  @media (max-width: 820px){ .location-grid{ grid-template-columns: 1fr; } }
+
+  .hours-card{
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: var(--radius);
+    padding: 32px;
+  }
+  .hours-card h3{
+    font-size: 18px;
+    color: var(--mustard);
+    margin-bottom: 20px;
+  }
+  .hours-row{
+    display:flex;
+    justify-content:space-between;
+    padding: 9px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    font-size: 14px;
+    font-family:'JetBrains Mono';
+  }
+  .hours-row:last-child{ border-bottom:none; }
+  .hours-row.today{ color: var(--mustard); font-weight: 700; }
+
+  .contact-card{
+    border: 1.5px solid var(--line);
+    border-radius: var(--radius);
+    padding: 32px;
+    background: var(--cream-card);
+  }
+  .contact-card h3{
+    font-size: 18px;
+    color: var(--maroon-dark);
+    margin-bottom: 20px;
+  }
+  .contact-line{
+    display:flex;
+    gap: 12px;
+    align-items:flex-start;
+    margin-bottom: 16px;
+    font-size: 15px;
+  }
+  .contact-line:last-child{ margin-bottom:0; }
+  .contact-line .ico{
+    width: 20px; flex-shrink:0; color: var(--maroon);
+  }
+  .contact-line a{ text-decoration: underline; text-decoration-color: var(--mustard); text-underline-offset: 3px; }
+
+  /* ---------- footer ---------- */
+  footer{
+    background: var(--maroon-dark);
+    color: rgba(255,255,255,0.75);
+    padding: 40px 0;
+    text-align:center;
+    font-size: 13px;
+  }
+  footer .brand{
+    justify-content:center;
+    color: #fff;
+    margin-bottom: 10px;
+  }
+  footer .brand .dot{ box-shadow: 0 0 0 3px var(--maroon-dark), 0 0 0 4px var(--herb); }
+
+  /* reveal on scroll */
+  .reveal{
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity .6s ease, transform .6s ease;
+  }
+  .reveal.in{ opacity: 1; transform: translateY(0); }
+  @media (prefers-reduced-motion: reduce){
+    .reveal{ opacity:1; transform:none; transition:none; }
+  }
+
 </style>
 </head>
 <body>
 
-<div id="cur"></div>
-
-<nav>
-  <a class="logo" href="index.html">Kapsalon <em>Breda</em></a>
-  <ul class="nav-links">
-    <li><a href="#team">Team</a></li>
-    <li><a href="#diensten">Diensten</a></li>
-    <li><a href="#reviews">Reviews</a></li>
-    <li><a href="#afspraak">Contact</a></li>
-  </ul>
-  <a href="#afspraak" class="nav-cta">Afspraak</a>
-</nav>
-
-<section class="hero">
-  <div class="hero-left">
-    <p class="hero-kicker"><span>Kapsalon Breda — Centrum</span></p>
-    <h1>
-      <strong>Jouw haar,</strong>
-      <em>jouw verhaal.</em>
-    </h1>
-    <p class="hero-body">Vakmanschap, persoonlijke aandacht en een gevoel voor stijl. Al meer dan tien jaar verzorgen wij jouw look in hartje Breda.</p>
-    <div class="hero-actions">
-      <a href="#afspraak" class="btn-primary">Maak een afspraak</a>
-      <a href="#team" class="btn-link">Ons team</a>
-    </div>
-    <div class="hero-scroll">
-      <div class="scroll-line"></div>
-      <span>Scroll</span>
-    </div>
+<header>
+  <div class="nav-row">
+    <div class="brand"><span class="dot"></span> Restaria Ginnekenees</div>
+    <nav>
+      <ul>
+        <li><a href="#over">Over ons</a></li>
+        <li><a href="#menukaart">Menukaart</a></li>
+        <li><a href="#reviews">Reviews</a></li>
+        <li><a href="#locatie">Locatie</a></li>
+      </ul>
+    </nav>
+    <a class="nav-cta" href="tel:0765655174">Bel &amp; bestel</a>
   </div>
-  <div class="hero-right">
-    <img src="./kapster plaatje.webp" alt="Kapsalon sfeer">
+  <div class="checker"></div>
+</header>
+
+<section class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow-badge"><span class="blob"></span> Ginneken, Breda · sinds jaren een vaste waarde</span>
+      <h1>Vers uit de friteuse.<span>Recht uit Ginneken.</span></h1>
+      <p class="lede">Bij Restaria Ginnekenees draait alles om eerlijk, vers bereid snackbar-eten: krokante frieten, huisgemaakte bamiballen en een vriendelijk gezicht achter de balie. Elke dag opnieuw.</p>
+      <div class="hero-actions">
+        <a class="btn-primary" href="#menukaart">Bekijk de menukaart</a>
+        <a class="btn-ghost" href="#locatie">Route &amp; openingstijden</a>
+      </div>
+    </div>
+    <div class="stamp">
+      <span class="top-label">Google reviews</span>
+      <span class="score">4.4</span>
+      <span class="stars">★★★★☆</span>
+      <span class="count">226 beoordelingen</span>
+    </div>
   </div>
 </section>
 
-<div class="marquee-bar">
-  <div class="marquee-inner">
-    <span class="marquee-item">Dames &amp; Heren <span class="marquee-dot">◆</span></span>
-    <span class="marquee-item">Kleur &amp; Highlights <span class="marquee-dot">◆</span></span>
-    <span class="marquee-item">Balayage <span class="marquee-dot">◆</span></span>
-    <span class="marquee-item">Baard &amp; Fade <span class="marquee-dot">◆</span></span>
-    <span class="marquee-item">Keratin <span class="marquee-dot">◆</span></span>
-    <span class="marquee-item">Hot Towel Shave <span class="marquee-dot">◆</span></span>
-    <span class="marquee-item">Breda Centrum <span class="marquee-dot">◆</span></span>
-    <span class="marquee-item">Dames &amp; Heren <span class="marquee-dot">◆</span></span>
-    <span class="marquee-item">Kleur &amp; Highlights <span class="marquee-dot">◆</span></span>
-    <span class="marquee-item">Balayage <span class="marquee-dot">◆</span></span>
-    <span class="marquee-item">Baard &amp; Fade <span class="marquee-dot">◆</span></span>
-    <span class="marquee-item">Keratin <span class="marquee-dot">◆</span></span>
-    <span class="marquee-item">Hot Towel Shave <span class="marquee-dot">◆</span></span>
-    <span class="marquee-item">Breda Centrum <span class="marquee-dot">◆</span></span>
+<div class="info-strip">
+  <div class="wrap info-row">
+    <div class="info-item">
+      <div class="label">Vandaag</div>
+      <div class="value open">Open · sluit om 21:00</div>
+    </div>
+    <div class="info-item">
+      <div class="label">Prijsklasse</div>
+      <div class="value">€1 – €10 per persoon</div>
+    </div>
+    <div class="info-item">
+      <div class="label">Service</div>
+      <div class="value">Eten in de zaak · Afhalen · Bezorgen</div>
+    </div>
+    <div class="info-item">
+      <div class="label">Telefoon</div>
+      <div class="value"><a href="tel:0765655174">076 565 5174</a></div>
+    </div>
   </div>
 </div>
 
-<!-- STATS -->
-<div class="stats-row reveal">
-  <div class="stat"><strong>10+</strong><span>Jaar ervaring</span></div>
-  <div class="stat"><strong>900+</strong><span>Tevreden klanten</span></div>
-  <div class="stat"><strong>2</strong><span>Specialisten</span></div>
-  <div class="stat"><strong>100%</strong><span>Persoonlijke aandacht</span></div>
+<section id="over">
+  <div class="wrap about-grid">
+    <div class="about-copy reveal">
+      <div class="section-head" style="text-align:left; margin:0 0 24px;">
+        <div class="kicker">Over de zaak</div>
+        <h2>Een buurtplek met een vaste kern van fans</h2>
+      </div>
+      <p>Restaria Ginnekenees zit aan de Prins Hendrikstraat, midden in de wijk Ginneken, en is voor veel buurtbewoners al jaren hét adres voor een snelle, goede hap. Klanten roemen keer op keer de gulle portie friet voor een scherpe prijs en de vriendelijke bediening.</p>
+      <p>De frieten worden vers gebakken en zijn volgens vaste bezoekers van de betere kwaliteit die je in de stad kunt vinden. Ook de kip-burgers en snacks van eigen bereiding, zoals de bamibal, worden veel geprezen.</p>
+      <p>Kortom: geen poespas, gewoon eerlijk snackbar-eten, klaargemaakt door mensen die trots zijn op wat ze serveren.</p>
+    </div>
+    <div class="ticket reveal">
+      <div class="ticket-title">— WAAR KLANTEN OM TERUGKOMEN —</div>
+      <ul>
+        <li><span class="tname">Portie frites</span><span class="tval">Gul &amp; vers</span></li>
+        <li><span class="tname">Bamibal</span><span class="tval">Huisgemaakt</span></li>
+        <li><span class="tname">Kipburger</span><span class="tval">Publieksfavoriet</span></li>
+        <li><span class="tname">Bediening</span><span class="tval">Vriendelijk</span></li>
+        <li><span class="tname">Beoordeling</span><span class="tval">4.4 / 5</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="checker reverse"></div>
+
+<section id="menukaart" style="background: var(--paper-2);">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="kicker">Menukaart</div>
+      <h2>Snackbar-klassiekers, vers gemaakt</h2>
+      <p>Een greep uit wat er dagelijks uit onze friteuse en keuken komt.</p>
+    </div>
+
+    <div class="menu-tabs reveal" role="tablist">
+      <button class="tab-btn active" data-tab="snacks">Snacks</button>
+      <button class="tab-btn" data-tab="friet">Friet &amp; sauzen</button>
+      <button class="tab-btn" data-tab="burgers">Burgers &amp; broodjes</button>
+      <button class="tab-btn" data-tab="drinken">Dranken</button>
+    </div>
+
+    <div class="menu-panel active" id="snacks">
+      <div class="menu-list">
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Frikandel</div><div class="mi-desc">Klassieker uit eigen friteuse</div></div><div class="mi-price">€ 2,10</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Kroket (rund)</div><div class="mi-desc">Krokant van buiten, romig van binnen</div></div><div class="mi-price">€ 2,30</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Bamibal</div><div class="mi-desc">Huisgemaakt, met een vleugje kruiden</div></div><div class="mi-price">€ 2,20</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Kaassoufflé</div><div class="mi-desc">Volop gesmolten kaas</div></div><div class="mi-price">€ 2,40</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Loempia</div><div class="mi-desc">Groot formaat, pittige variant mogelijk</div></div><div class="mi-price">€ 2,60</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Bitterballen (8 st.)</div><div class="mi-desc">Met mosterd erbij</div></div><div class="mi-price">€ 5,50</div></div>
+      </div>
+    </div>
+
+    <div class="menu-panel" id="friet">
+      <div class="menu-list">
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Frietje klein</div><div class="mi-desc">Vers gesneden, dagelijks gebakken</div></div><div class="mi-price">€ 2,80</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Frietje groot</div><div class="mi-desc">De portie waar Ginneken om bekendstaat</div></div><div class="mi-price">€ 3,60</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Frietje speciaal</div><div class="mi-desc">Mayo, ketchup &amp; gesnipperde ui</div></div><div class="mi-price">€ 4,10</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Frietje oorlog</div><div class="mi-desc">Satésaus, mayo &amp; ui</div></div><div class="mi-price">€ 4,30</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Extra saus</div><div class="mi-desc">Mayo · ketchup · curry · joppie</div></div><div class="mi-price">€ 0,70</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Kipsaté saus</div><div class="mi-desc">Zelfgemaakt recept</div></div><div class="mi-price">€ 0,80</div></div>
+      </div>
+    </div>
+
+    <div class="menu-panel" id="burgers">
+      <div class="menu-list">
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Kipburger</div><div class="mi-desc">Publieksfavoriet, mals gebakken</div></div><div class="mi-price">€ 4,50</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Hamburger</div><div class="mi-desc">Met sla, tomaat &amp; huissaus</div></div><div class="mi-price">€ 4,20</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Shoarmabroodje</div><div class="mi-desc">Met knoflooksaus &amp; salade</div></div><div class="mi-price">€ 5,90</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Frikandelbroodje</div><div class="mi-desc">Warm broodje, extra mayo mogelijk</div></div><div class="mi-price">€ 3,40</div></div>
+      </div>
+    </div>
+
+    <div class="menu-panel" id="drinken">
+      <div class="menu-list">
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Frisdrank (blikje)</div><div class="mi-desc">Cola, Fanta, Sprite</div></div><div class="mi-price">€ 2,00</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Water</div><div class="mi-desc">Met of zonder prik</div></div><div class="mi-price">€ 1,80</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Milkshake</div><div class="mi-desc">Aardbei, chocolade of vanille</div></div><div class="mi-price">€ 3,20</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Koffie</div><div class="mi-desc">Vers gezet</div></div><div class="mi-price">€ 2,10</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="reviews-strip" id="reviews">
+  <section>
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="kicker">Reviews</div>
+        <h2>Wat vaste klanten zeggen</h2>
+      </div>
+
+      <div class="rating-summary reveal">
+        <div class="rs-num">4.4</div>
+        <div class="rs-side">
+          <div class="stars">★★★★☆</div>
+          <div class="count">Gebaseerd op 226 Google-reviews</div>
+        </div>
+      </div>
+
+      <div class="review-grid reveal">
+        <div class="review-card">
+          <div class="stars">★★★★★</div>
+          <p>Een royale hoeveelheid friet voor een mooie prijs, en de kipburger viel bijzonder goed in de smaak. De bediening werd omschreven als bijzonder vriendelijk.</p>
+          <div class="reviewer">Local Guide · 228 reviews</div>
+        </div>
+        <div class="review-card">
+          <div class="stars">★★★★★</div>
+          <p>De frieten worden geroemd om hun versheid, en het personeel wordt bedankt voor de vriendelijke ontvangst — een plek waar bezoekers graag terugkomen.</p>
+          <div class="reviewer">Local Guide · 149 reviews</div>
+        </div>
+        <div class="review-card">
+          <div class="stars">★★★★★</div>
+          <p>Volgens deze bezoeker horen de frieten hier tot de beste van de hele stad — een compliment dat vaker terugkomt in de reviews.</p>
+          <div class="reviewer">Local Guide · 8 reviews</div>
+        </div>
+      </div>
+    </div>
+  </section>
 </div>
 
-<!-- TEAM -->
-<section class="team-section" id="team">
-  <div class="team-inner">
-    <div class="eyebrow reveal"><span>Ons team</span></div>
-  </div>
-  <div class="team-grid">
+<div class="checker"></div>
 
-    <div class="kapper reveal">
-      <div class="kapper-visual">
-        <a href="sophie.html"><img src="./kapster plaatje.webp" alt="Sophie"></a>
-        <div class="kapper-overlay"></div>
-        <div class="kapper-num">01</div>
-        <span class="kapper-badge">Dames &amp; Kleur</span>
-      </div>
-      <div class="kapper-info">
-        <p class="kapper-tag">01 — Styliste</p>
-        <h2>Sophie<em>.</em></h2>
-        <div class="kapper-line"></div>
-        <p>Sophie is gespecialiseerd in moderne dameskapsels, kleuringen en luxe styling. Met haar creatieve aanpak weet zij iedere look perfect af te stemmen op de klant.</p>
-        <p>Met meer dan 8 jaar ervaring zorgt zij altijd voor een ontspannen sfeer en een professioneel eindresultaat.</p>
-        <div class="kapper-skills">
-          <span class="skill-tag">Highlights</span>
-          <span class="skill-tag">Balayage</span>
-          <span class="skill-tag">Kleuren</span>
-          <span class="skill-tag">Styling</span>
-          <span class="skill-tag">Keratin</span>
-        </div>
-        <a href="sophie.html" class="kapper-link">Bekijk profiel →</a>
-      </div>
+<section id="locatie">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="kicker">Locatie &amp; tijden</div>
+      <h2>Loop binnen in Ginneken</h2>
     </div>
 
-    <div class="kapper flip reveal">
-      <div class="kapper-visual">
-        <a href="david.html"><img src="./mannelijke kapper.jpg" alt="David"></a>
-        <div class="kapper-overlay"></div>
-        <div class="kapper-num">02</div>
-        <span class="kapper-badge">Heren &amp; Baard</span>
+    <div class="location-grid reveal">
+      <div class="hours-card">
+        <h3>Openingstijden</h3>
+        <div class="hours-row"><span>Maandag</span><span>12:00 – 21:00</span></div>
+        <div class="hours-row"><span>Dinsdag</span><span>12:00 – 21:00</span></div>
+        <div class="hours-row today"><span>Woensdag</span><span>12:00 – 21:00</span></div>
+        <div class="hours-row"><span>Donderdag</span><span>12:00 – 21:00</span></div>
+        <div class="hours-row"><span>Vrijdag</span><span>12:00 – 21:00</span></div>
+        <div class="hours-row"><span>Zaterdag</span><span>12:00 – 21:00</span></div>
+        <div class="hours-row"><span>Zondag</span><span>12:00 – 21:00</span></div>
       </div>
-      <div class="kapper-info">
-        <p class="kapper-tag">02 — Stylist</p>
-        <h2>David<em>.</em></h2>
-        <div class="kapper-line"></div>
-        <p>David focust zich op strakke fades, moderne herenkapsels en professionele baardverzorging. Zijn aanpak is precies, doordacht en altijd op maat.</p>
-        <p>Met een scherp oog voor de nieuwste trends laat hij iedere klant er op zijn allerbestst uitzien.</p>
-        <div class="kapper-skills">
-          <span class="skill-tag">Fade</span>
-          <span class="skill-tag">Undercut</span>
-          <span class="skill-tag">Baard trimmen</span>
-          <span class="skill-tag">Skin fade</span>
-          <span class="skill-tag">Hot towel</span>
-        </div>
-        <a href="david.html" class="kapper-link">Bekijk profiel →</a>
-      </div>
-    </div>
 
-  </div>
-</section>
-
-<!-- DIENSTEN & PRIJZEN -->
-<section class="diensten-section" id="diensten">
-  <div class="diensten-inner">
-    <div class="eyebrow reveal"><span>Diensten &amp; Prijzen</span></div>
-    <h2 class="section-title reveal">Wat kunnen wij <em>voor jou doen?</em></h2>
-    <p style="font-size:15px;font-weight:300;color:var(--stone);max-width:520px;line-height:1.8;margin-bottom:56px" class="reveal">Van een snelle knipbeurt tot een complete make-over — wij bieden de service die bij jou past.</p>
-
-    <div class="price-tabs reveal">
-      <button class="price-tab on" onclick="switchTab(this,'dames')">Dames</button>
-      <button class="price-tab" onclick="switchTab(this,'heren')">Heren</button>
-      <button class="price-tab" onclick="switchTab(this,'kleur')">Kleur</button>
-    </div>
-
-    <div class="price-panel on" id="dames">
-      <div class="price-grid">
-        <div class="price-card">
-          <span class="pc-num">I.</span>
-          <div class="pc-name">Knippen &amp; föhnen</div>
-          <div class="pc-desc">Wassen, knippen en professioneel föhnen op maat. Inclusief stylingadvies en persoonlijk klantgesprek.</div>
-          <div class="pc-bottom"><span class="pc-dur">± 60 min</span><div class="pc-price"><sup>€</sup>55</div></div>
+      <div class="contact-card">
+        <h3>Contact &amp; adres</h3>
+        <div class="contact-line">
+          <span class="ico">📍</span>
+          <span>Prins Hendrikstraat 141<br>4835 PN Breda</span>
         </div>
-        <div class="price-card featured">
-          <span class="pc-num">II.</span>
-          <div class="pc-name">Knippen &amp; styling</div>
-          <div class="pc-desc">Knipbeurt met uitgebreide styling en finishing. Ideaal voor een speciale gelegenheid of totale make-over.</div>
-          <div class="pc-bottom"><span class="pc-dur">± 75 min</span><div class="pc-price"><sup>€</sup>70</div></div>
+        <div class="contact-line">
+          <span class="ico">📞</span>
+          <span><a href="tel:0765655174">076 565 5174</a></span>
         </div>
-        <div class="price-card">
-          <span class="pc-num">III.</span>
-          <div class="pc-name">Wassen &amp; föhnen</div>
-          <div class="pc-desc">Grondig wassen met verzorgende producten, gevolgd door professioneel föhnen en finishing.</div>
-          <div class="pc-bottom"><span class="pc-dur">± 40 min</span><div class="pc-price"><sup>€</sup>38</div></div>
+        <div class="contact-line">
+          <span class="ico">🌐</span>
+          <span><a href="https://restariaginnekenees.nl" target="_blank" rel="noopener">restariaginnekenees.nl</a></span>
         </div>
-        <div class="price-card">
-          <span class="pc-num">IV.</span>
-          <div class="pc-name">Keratin behandeling</div>
-          <div class="pc-desc">Langdurige gladheidbehandeling die kroesheid vermindert en het haar diep voedt voor weken lang effect.</div>
-          <div class="pc-bottom"><span class="pc-dur">± 120 min</span><div class="pc-price"><sup>€</sup>140</div></div>
+        <div class="contact-line">
+          <span class="ico">🚗</span>
+          <span>Eten in de zaak, afhalen of laten bezorgen — kies wat jou uitkomt.</span>
         </div>
       </div>
-    </div>
-
-    <div class="price-panel" id="heren">
-      <div class="price-grid">
-        <div class="price-card">
-          <span class="pc-num">I.</span>
-          <div class="pc-name">Klassiek knippen</div>
-          <div class="pc-desc">Strak en verzorgd herenkappsel, inclusief wassen en styling. Tijdloos vakmanschap voor een scherp resultaat.</div>
-          <div class="pc-bottom"><span class="pc-dur">± 40 min</span><div class="pc-price"><sup>€</sup>34</div></div>
-        </div>
-        <div class="price-card featured">
-          <span class="pc-num">II.</span>
-          <div class="pc-name">Fade &amp; styling</div>
-          <div class="pc-desc">Professionele fade (low, mid of high) gecombineerd met een persoonlijke stijlkeuze. Strak tot in de details.</div>
-          <div class="pc-bottom"><span class="pc-dur">± 50 min</span><div class="pc-price"><sup>€</sup>40</div></div>
-        </div>
-        <div class="price-card">
-          <span class="pc-num">III.</span>
-          <div class="pc-name">Baard trimmen</div>
-          <div class="pc-desc">Contouren, trimmen en verzorgen van de baard. Inclusief baardbalsem en stylingtips voor thuis.</div>
-          <div class="pc-bottom"><span class="pc-dur">± 25 min</span><div class="pc-price"><sup>€</sup>22</div></div>
-        </div>
-        <div class="price-card">
-          <span class="pc-num">IV.</span>
-          <div class="pc-name">Knip + baard combi</div>
-          <div class="pc-desc">Volledige behandeling: haarknipbeurt én baardverzorging in één sessie. Het complete pakket voor de moderne man.</div>
-          <div class="pc-bottom"><span class="pc-dur">± 70 min</span><div class="pc-price"><sup>€</sup>58</div></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="price-panel" id="kleur">
-      <div class="price-grid">
-        <div class="price-card">
-          <span class="pc-num">I.</span>
-          <div class="pc-name">Volledig kleuren</div>
-          <div class="pc-desc">Complete haarkleurbehandeling met professionele producten. Inclusief inwerktijd, wassen en föhnen.</div>
-          <div class="pc-bottom"><span class="pc-dur">± 90 min</span><div class="pc-price"><sup>€</sup>75</div></div>
-        </div>
-        <div class="price-card featured">
-          <span class="pc-num">II.</span>
-          <div class="pc-name">Balayage</div>
-          <div class="pc-desc">Handgeschilderde kleurtechniek voor een zachte, zongebruinde look die naadloos in je eigen kleur overvloeit.</div>
-          <div class="pc-bottom"><span class="pc-dur">± 150 min</span><div class="pc-price"><sup>€</sup>120</div></div>
-        </div>
-        <div class="price-card">
-          <span class="pc-num">III.</span>
-          <div class="pc-name">Highlights</div>
-          <div class="pc-desc">Lichte plukken voor diepte en glans. Kies voor subtiel of opvallend — Sophie adviseert wat bij jou past.</div>
-          <div class="pc-bottom"><span class="pc-dur">± 110 min</span><div class="pc-price"><sup>€</sup>95</div></div>
-        </div>
-        <div class="price-card">
-          <span class="pc-num">IV.</span>
-          <div class="pc-name">Toning &amp; glans</div>
-          <div class="pc-desc">Kleurverfrissing of tonende behandeling voor extra glans en kleurdiepte. Ideaal als tussentijdse opfrisbeurt.</div>
-          <div class="pc-bottom"><span class="pc-dur">± 60 min</span><div class="pc-price"><sup>€</sup>55</div></div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<!-- REVIEWS -->
-<section class="reviews-section" id="reviews">
-  <div class="reviews-inner">
-    <div class="eyebrow reveal"><span>Wat klanten zeggen</span></div>
-    <h2 class="section-title reveal">Eerlijke <em>ervaringen.</em></h2>
-
-    <div class="reviews-grid">
-      <div class="review-card reveal">
-        <div class="review-stars"><span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span></div>
-        <p class="review-text">Sophie heeft mijn haar precies zo gedaan als ik het wilde. Ze luistert goed en geeft eerlijk advies. Ik kom hier al drie jaar en ga nooit meer weg.</p>
-        <div class="review-author"><div class="review-avatar">L</div><div><div class="review-name">Laura de Groot</div><div class="review-meta">Vaste klant · Sophie</div></div></div>
-      </div>
-      <div class="review-card reveal d1">
-        <div class="review-stars"><span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span></div>
-        <p class="review-text">David is geweldig met fades. Ik kom nergens anders meer voor een knipbeurt. Strak, snel en altijd een goed gesprek erbij.</p>
-        <div class="review-author"><div class="review-avatar">M</div><div><div class="review-name">Milan Okafor</div><div class="review-meta">Vaste klant · David</div></div></div>
-      </div>
-      <div class="review-card reveal d2">
-        <div class="review-stars"><span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span></div>
-        <p class="review-text">De balayage die Sophie heeft gedaan is fenomenaal. Ik krijg continu complimenten. Sfeer in de salon is ook echt top — ontspannen en professioneel.</p>
-        <div class="review-author"><div class="review-avatar">N</div><div><div class="review-name">Noor Janssen</div><div class="review-meta">Klant · Sophie</div></div></div>
-      </div>
-      <div class="review-card reveal d1">
-        <div class="review-stars"><span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span></div>
-        <p class="review-text">Eindelijk een kapper die ook echt naar je luistert. Geen standaard knipbeurt maar echt nagedacht over wat bij mij past. Aanrader!</p>
-        <div class="review-author"><div class="review-avatar">T</div><div><div class="review-name">Thomas Vermeer</div><div class="review-meta">Klant · David</div></div></div>
-      </div>
-      <div class="review-card reveal d2">
-        <div class="review-stars"><span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span></div>
-        <p class="review-text">Mijn haar heeft een complete transformatie ondergaan. De highlights zijn prachtig en de keratin behandeling heeft mijn haar zoveel gezonder gemaakt.</p>
-        <div class="review-author"><div class="review-avatar">E</div><div><div class="review-name">Emma Visser</div><div class="review-meta">Vaste klant · Sophie</div></div></div>
-      </div>
-      <div class="review-card reveal d3">
-        <div class="review-stars"><span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span></div>
-        <p class="review-text">Super professioneel, gezellige sfeer en het resultaat is altijd top. De hot towel shave is een verwennerij die ik elke maand herhaal.</p>
-        <div class="review-author"><div class="review-avatar">R</div><div><div class="review-name">Remy Bakker</div><div class="review-meta">Vaste klant · David</div></div></div>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<!-- AFSPRAAK -->
-<section class="form-section" id="afspraak">
-  <div class="form-inner">
-    <div class="eyebrow reveal" style="justify-content:center"><span>Reserveren</span></div>
-    <h2 class="section-title reveal">Maak een <em>afspraak.</em></h2>
-    <p class="form-intro reveal">Vul je gegevens in en wij bevestigen jouw afspraak zo snel mogelijk via e-mail.</p>
-
-    <div class="form-card reveal">
-      <form onsubmit="sendForm(event)">
-        <div class="fg">
-          <div class="field">
-            <label for="naam">Naam</label>
-            <input type="text" id="naam" placeholder="Jouw naam" required>
-          </div>
-          <div class="field">
-            <label for="email">E-mailadres</label>
-            <input type="email" id="email" placeholder="jouw@email.nl" required>
-          </div>
-          <div class="field">
-            <label for="kapper">Kapper</label>
-            <select id="kapper" required>
-              <option value="">Kies een kapper</option>
-              <option>Sophie</option>
-              <option>David</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="dienst">Dienst</label>
-            <select id="dienst" required>
-              <option value="">Kies een dienst</option>
-              <option>Knippen</option>
-              <option>Knippen &amp; föhnen</option>
-              <option>Kleuren</option>
-              <option>Balayage</option>
-              <option>Highlights</option>
-              <option>Fade</option>
-              <option>Baard trimmen</option>
-              <option>Knip + baard combi</option>
-              <option>Keratin behandeling</option>
-              <option>Hot towel shave</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="datum">Datum</label>
-            <input type="date" id="datum" required>
-          </div>
-          <div class="field">
-            <label for="tijd">Tijdvoorkeur</label>
-            <input type="time" id="tijd" required>
-          </div>
-        </div>
-        <button class="btn-submit" type="submit">Verstuur aanvraag</button>
-      </form>
-      <p id="melding"></p>
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
-<footer id="contact">
-  <div class="footer-top">
-    <div class="footer-brand">
-      <a class="logo" href="index.html">Kapsalon <em>Breda</em></a>
-      <p>Service, vakmanschap en persoonlijke aandacht. Al meer dan tien jaar verzorgen wij jouw look in hartje Breda.</p>
-    </div>
-    <div class="fc">
-      <h3>Navigatie</h3>
-      <a href="#team">Ons team</a>
-      <a href="#diensten">Diensten</a>
-      <a href="#reviews">Reviews</a>
-      <a href="vacatures.html">Vacatures</a>
-    </div>
-    <div class="fc">
-      <h3>Contact</h3>
-      <a href="tel:0765201955">076-5201955</a>
-      <a href="mailto:info@kapsalon.nl">info@kapsalon.nl</a>
-      <p>Breda, Centrum</p>
-    </div>
-    <div class="fc">
-      <h3>Openingstijden</h3>
-      <p>Maandag: gesloten<br>Di – Wo: 09:00 – 18:00<br>Donderdag: 09:00 – 21:00<br>Vrijdag: 09:00 – 18:00<br>Zaterdag: 09:00 – 17:00</p>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <p>© 2026 Kapsalon Breda — Alle rechten voorbehouden</p>
-    <a href="#afspraak" class="footer-cta">Afspraak maken</a>
+<footer>
+  <div class="wrap">
+    <div class="brand"><span class="dot"></span> Restaria Ginnekenees</div>
+    <p>Prins Hendrikstraat 141, 4835 PN Breda · 076 565 5174</p>
   </div>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>
-emailjs.init('uqgU5EFcv74CZg8bB');
-
-const cur=document.getElementById('cur');
-document.addEventListener('mousemove',e=>{cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px'});
-document.querySelectorAll('a,button,input,select').forEach(el=>{
-  el.addEventListener('mouseenter',()=>cur.classList.add('big'));
-  el.addEventListener('mouseleave',()=>cur.classList.remove('big'));
-});
-
-const obs=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')});
-},{threshold:0.1});
-document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
-
-function switchTab(btn,panel){
-  document.querySelectorAll('.price-tab').forEach(t=>t.classList.remove('on'));
-  document.querySelectorAll('.price-panel').forEach(p=>p.classList.remove('on'));
-  btn.classList.add('on');
-  document.getElementById(panel).classList.add('on');
-}
-
-function sendForm(e){
-  e.preventDefault();
-  const btn=e.target.querySelector('.btn-submit');
-  const melding=document.getElementById('melding');
-
-  const naam=document.getElementById('naam').value.trim();
-  const email=document.getElementById('email').value.trim();
-  const kapper=document.getElementById('kapper').value;
-  const dienst=document.getElementById('dienst').value;
-  const datum=document.getElementById('datum').value;
-  const tijd=document.getElementById('tijd').value;
-  const d=new Date(datum+'T00:00:00').toLocaleDateString('nl-NL',{weekday:'long',day:'numeric',month:'long'});
-
-  btn.textContent='Versturen...';
-  btn.disabled=true;
-  melding.textContent='';
-
-  emailjs.send('service_2gjvrq8','template_igscaf7',{
-    naam,
-    email,
-    kapper,
-    dienst,
-    datum: d,
-    tijd
-  }).then(()=>{
-    melding.style.color='var(--gold2)';
-    melding.textContent=`Bedankt ${naam}! Je afspraak bij ${kapper} (${dienst}) is aangevraagd voor ${d} om ${tijd}. Je ontvangt een bevestiging per e-mail.`;
-    e.target.reset();
-    btn.textContent='Verstuur aanvraag';
-    btn.disabled=false;
-  }).catch(err=>{
-    melding.style.color='#f4a4a4';
-    melding.textContent='Er ging iets mis. Probeer het opnieuw of bel ons op 076-5201955.';
-    console.error('EmailJS fout:',err);
-    btn.textContent='Verstuur aanvraag';
-    btn.disabled=false;
+  // menu tabs
+  document.querySelectorAll('.tab-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+      document.querySelectorAll('.menu-panel').forEach(p=>p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(btn.dataset.tab).classList.add('active');
+    });
   });
-}
+
+  // scroll reveal
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 </script>
 
 </body>
