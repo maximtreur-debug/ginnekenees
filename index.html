@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html lang="nl">
 <head>
 <meta charset="UTF-8">
@@ -487,6 +487,57 @@
     display:none;
   }
 
+  .frites-table{
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15px;
+  }
+  .frites-table th{
+    font-family:'JetBrains Mono';
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: 11px;
+    color: rgba(42,33,24,0.55);
+    text-align: right;
+    padding: 0 0 10px;
+    font-weight: 600;
+  }
+  .frites-table th:first-child{ text-align:left; }
+  .frites-table td{
+    padding: 12px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .frites-table tr:last-child td{ border-bottom:none; }
+  .frites-table td.fname{
+    font-weight: 600;
+    text-align:left;
+  }
+  .frites-table td.fprice{
+    font-family:'JetBrains Mono';
+    text-align:right;
+    color: var(--maroon);
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  .frites-table td.fprice.empty{
+    color: rgba(42,33,24,0.25);
+  }
+  .menu-note{
+    margin-top: 22px;
+    font-size: 13px;
+    color: rgba(42,33,24,0.55);
+    font-style: italic;
+  }
+  .menu-subhead{
+    font-family:'Bungee';
+    font-size: 14px;
+    color: var(--maroon-dark);
+    margin: 30px 0 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  .menu-subhead:first-child{ margin-top:0; }
+
   /* ---------- reviews ---------- */
   .reviews-strip{ background: var(--paper-2); }
   .review-grid{
@@ -715,49 +766,125 @@
     </div>
 
     <div class="menu-tabs reveal" role="tablist">
-      <button class="tab-btn active" data-tab="snacks">Snacks</button>
-      <button class="tab-btn" data-tab="friet">Friet &amp; sauzen</button>
-      <button class="tab-btn" data-tab="burgers">Burgers &amp; broodjes</button>
-      <button class="tab-btn" data-tab="drinken">Dranken</button>
+      <button class="tab-btn active" data-tab="friet">Frites</button>
+      <button class="tab-btn" data-tab="snacks">Snacks &amp; kroketten</button>
+      <button class="tab-btn" data-tab="burgers">Broodjes</button>
+      <button class="tab-btn" data-tab="schotels">Schotels &amp; Chinees</button>
+      <button class="tab-btn" data-tab="sauzen">Sauzen</button>
     </div>
 
-    <div class="menu-panel active" id="snacks">
+    <div class="menu-panel active" id="friet">
+      <table class="frites-table">
+        <thead>
+          <tr><th>Frites</th><th>Klein</th><th>Middel</th><th>Groot</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="fname">Frites zonder</td><td class="fprice">3,10</td><td class="fprice">3,70</td><td class="fprice">4,70</td></tr>
+          <tr><td class="fname">Frites mayonaise</td><td class="fprice">3,70</td><td class="fprice">4,10</td><td class="fprice">5,10</td></tr>
+          <tr><td class="fname">Frites speciaal</td><td class="fprice">4,20</td><td class="fprice">4,90</td><td class="fprice">5,70</td></tr>
+          <tr><td class="fname">Frites joppiesaus</td><td class="fprice">4,20</td><td class="fprice">4,90</td><td class="fprice">5,70</td></tr>
+          <tr><td class="fname">Frites tartaarsaus</td><td class="fprice">4,20</td><td class="fprice">4,90</td><td class="fprice">5,70</td></tr>
+          <tr><td class="fname">Frites piccalilly</td><td class="fprice">4,20</td><td class="fprice">4,90</td><td class="fprice">5,70</td></tr>
+          <tr><td class="fname">Frites satésaus</td><td class="fprice">4,70</td><td class="fprice">5,40</td><td class="fprice">6,20</td></tr>
+          <tr><td class="fname">Frites oorlog</td><td class="fprice">5,60</td><td class="fprice">6,30</td><td class="fprice">7,40</td></tr>
+          <tr><td class="fname">Frites stoofvlees</td><td class="fprice">7,10</td><td class="fprice">8,40</td><td class="fprice">9,50</td></tr>
+          <tr><td class="fname">Kapsalon</td><td class="fprice empty">—</td><td class="fprice">9,50</td><td class="fprice">10,20</td></tr>
+        </tbody>
+      </table>
+      <p class="menu-note">Alle frieten worden dagelijks vers gebakken.</p>
+    </div>
+
+    <div class="menu-panel" id="snacks">
+      <div class="menu-subhead">Frikandellen &amp; kroketten</div>
       <div class="menu-list">
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Frikandel</div><div class="mi-desc">Klassieker uit eigen friteuse</div></div><div class="mi-price">€ 2,10</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Kroket (rund)</div><div class="mi-desc">Krokant van buiten, romig van binnen</div></div><div class="mi-price">€ 2,30</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Bamibal</div><div class="mi-desc">Huisgemaakt, met een vleugje kruiden</div></div><div class="mi-price">€ 2,20</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Kaassoufflé</div><div class="mi-desc">Volop gesmolten kaas</div></div><div class="mi-price">€ 2,40</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Loempia</div><div class="mi-desc">Groot formaat, pittige variant mogelijk</div></div><div class="mi-price">€ 2,60</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Bitterballen (8 st.)</div><div class="mi-desc">Met mosterd erbij</div></div><div class="mi-price">€ 5,50</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Frikandel</div></div><div class="mi-price">€ 2,50</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Frikandel speciaal</div></div><div class="mi-price">€ 3,30</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">XXL Frikandel</div></div><div class="mi-price">€ 4,50</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Kroket vlees</div></div><div class="mi-price">€ 2,50</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Kroket goulash</div></div><div class="mi-price">€ 2,70</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Groentenkroket</div></div><div class="mi-price">€ 2,80</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Saté- / kalfskroket</div></div><div class="mi-price">€ 3,00</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Rundvleeskroket</div></div><div class="mi-price">€ 3,00</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Kaas- / hamkaassoufflé</div></div><div class="mi-price">€ 2,80</div></div>
       </div>
-    </div>
 
-    <div class="menu-panel" id="friet">
+      <div class="menu-subhead">Overige snacks</div>
       <div class="menu-list">
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Frietje klein</div><div class="mi-desc">Vers gesneden, dagelijks gebakken</div></div><div class="mi-price">€ 2,80</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Frietje groot</div><div class="mi-desc">De portie waar Ginneken om bekendstaat</div></div><div class="mi-price">€ 3,60</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Frietje speciaal</div><div class="mi-desc">Mayo, ketchup &amp; gesnipperde ui</div></div><div class="mi-price">€ 4,10</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Frietje oorlog</div><div class="mi-desc">Satésaus, mayo &amp; ui</div></div><div class="mi-price">€ 4,30</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Extra saus</div><div class="mi-desc">Mayo · ketchup · curry · joppie</div></div><div class="mi-price">€ 0,70</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Kipsaté saus</div><div class="mi-desc">Zelfgemaakt recept</div></div><div class="mi-price">€ 0,80</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Gehaktbal / bonkie</div></div><div class="mi-price">€ 3,10</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Gehaktbal (jus)</div></div><div class="mi-price">€ 3,10</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Berenklauw</div></div><div class="mi-price">€ 3,40</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Nasibal / bamibal</div></div><div class="mi-price">€ 3,10</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Bamischijf</div></div><div class="mi-price">€ 2,80</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Viandel</div></div><div class="mi-price">€ 2,90</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Kipcorn</div></div><div class="mi-price">€ 2,90</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Kaas kipcorn</div></div><div class="mi-price">€ 3,00</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Mexicano</div></div><div class="mi-price">€ 3,10</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Combi stick</div></div><div class="mi-price">€ 3,40</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Sitostick</div></div><div class="mi-price">€ 3,50</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Crizly</div></div><div class="mi-price">€ 3,60</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Smulrol / saterol</div></div><div class="mi-price">€ 3,30</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Shoarmarol</div></div><div class="mi-price">€ 3,40</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Knakworst</div></div><div class="mi-price">€ 2,30</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Kipnuggets</div></div><div class="mi-price">€ 3,70</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Kipfingers</div></div><div class="mi-price">€ 3,70</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Vlammetjes</div></div><div class="mi-price">€ 4,30</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Hot wings</div></div><div class="mi-price">€ 4,30</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">America chicken tenders</div></div><div class="mi-price">€ 4,60</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Bitterballen</div></div><div class="mi-price">€ 3,30</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Loempia</div></div><div class="mi-price">€ 4,70</div></div>
       </div>
     </div>
 
     <div class="menu-panel" id="burgers">
       <div class="menu-list">
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Kipburger</div><div class="mi-desc">Publieksfavoriet, mals gebakken</div></div><div class="mi-price">€ 4,50</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Hamburger</div><div class="mi-desc">Met sla, tomaat &amp; huissaus</div></div><div class="mi-price">€ 4,20</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Shoarmabroodje</div><div class="mi-desc">Met knoflooksaus &amp; salade</div></div><div class="mi-price">€ 5,90</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Frikandelbroodje</div><div class="mi-desc">Warm broodje, extra mayo mogelijk</div></div><div class="mi-price">€ 3,40</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Br. frikandel / kroket</div></div><div class="mi-price">€ 3,30</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Br. ham / br. kaas</div></div><div class="mi-price">€ 2,70</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Br. filet american</div></div><div class="mi-price">€ 3,90</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Br. tartaar</div></div><div class="mi-price">€ 3,90</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Br. pulled pork</div></div><div class="mi-price">€ 4,60</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Br. kipfilet</div></div><div class="mi-price">€ 6,00</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Br. crispy chicken burger</div></div><div class="mi-price">€ 5,75</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Br. hamburger</div></div><div class="mi-price">€ 5,60</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Br. cheeseburger</div></div><div class="mi-price">€ 6,70</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Br. Ginnekenees burger</div></div><div class="mi-price">€ 7,30</div></div>
       </div>
     </div>
 
-    <div class="menu-panel" id="drinken">
+    <div class="menu-panel" id="schotels">
+      <div class="menu-subhead">Shaslik &amp; saté</div>
       <div class="menu-list">
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Frisdrank (blikje)</div><div class="mi-desc">Cola, Fanta, Sprite</div></div><div class="mi-price">€ 2,00</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Water</div><div class="mi-desc">Met of zonder prik</div></div><div class="mi-price">€ 1,80</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Milkshake</div><div class="mi-desc">Aardbei, chocolade of vanille</div></div><div class="mi-price">€ 3,20</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Koffie</div><div class="mi-desc">Vers gezet</div></div><div class="mi-price">€ 2,10</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Shaslik</div></div><div class="mi-price">€ 7,00</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Saté kip</div></div><div class="mi-price">€ 8,00</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Saté varkenshaas</div></div><div class="mi-price">€ 8,50</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Spare-ribs</div></div><div class="mi-price">€ 9,50</div></div>
+      </div>
+
+      <div class="menu-subhead">Schotels</div>
+      <div class="menu-list">
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Kip-saté, stokbrood</div></div><div class="mi-price">€ 9,20</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Kip-saté, frites</div></div><div class="mi-price">€ 11,30</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Varkenshaas-saté, stokbrood</div></div><div class="mi-price">€ 9,70</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Varkenshaas-saté, frites</div></div><div class="mi-price">€ 11,80</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Schnitzel, frites</div></div><div class="mi-price">€ 9,20</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Spare-ribs, frites</div></div><div class="mi-price">€ 12,60</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Ginnekenees menu</div></div><div class="mi-price">€ 11,30</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Shoarma-frites</div></div><div class="mi-price">€ 11,20</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Stokbrood extra</div></div><div class="mi-price">€ 1,20</div></div>
+      </div>
+
+      <div class="menu-subhead">Chinese gerechten</div>
+      <div class="menu-list">
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Vegetarische mini loempia's</div></div><div class="mi-price">€ 3,20</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Nasi / bami schotel</div></div><div class="mi-price">€ 7,00</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Babi pangang</div><div class="mi-desc">Incl. nasi of bami</div></div><div class="mi-price">€ 11,00</div></div>
+      </div>
+    </div>
+
+    <div class="menu-panel" id="sauzen">
+      <div class="menu-list">
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Stoofvlees</div><div class="mi-desc">Beker</div></div><div class="mi-price">€ 4,10</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Mayonaise</div><div class="mi-desc">Beker</div></div><div class="mi-price">€ 2,30</div></div>
+        <div class="menu-item"><div class="mi-left"><div class="mi-name">Satésaus</div><div class="mi-desc">Beker</div></div><div class="mi-price">€ 3,30</div></div>
       </div>
     </div>
   </div>
