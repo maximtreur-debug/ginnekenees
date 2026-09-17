@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ruimteverdediger — Scores</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="logo">🚀 Ruimteverdediger</div>
+    <nav class="main-nav">
+      <a href="index.html">Home</a>
+      <a href="spel.html">Speel het spel</a>
+      <a href="uitleg.html">Uitleg</a>
+      <a href="scores.html" class="active">Scores</a>
+      <a href="over.html">Over</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Jouw scores</h1>
+    <p class="lead">
+      Je beste 10 potjes op dit apparaat, in deze browser. Deze scores worden
+      lokaal opgeslagen — ze zijn niet zichtbaar voor anderen en gaan verloren als
+      je de browsergegevens wist.
+    </p>
+
+    <div class="card" style="margin-top:20px;">
+      <table class="key-table" id="scoreTable">
+        <tr><th>#</th><th>Score</th><th>Level</th><th>Datum</th></tr>
+      </table>
+      <p id="emptyMsg" style="color:var(--text-dim); font-size:14px; display:none;">
+        Nog geen scores — speel je eerste potje om hier te verschijnen!
+      </p>
+    </div>
+
+    <div style="margin-top:24px; display:flex; gap:12px; flex-wrap:wrap;">
+      <a href="spel.html" class="btn">🎮 Nieuw potje spelen</a>
+      <button id="clearBtn" class="btn btn-outline">Scores wissen</button>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    Ruimteverdediger — gemaakt met HTML, CSS &amp; JavaScript.
+  </footer>
+
+  <script>
+    function loadScores() {
+      let list = [];
+      try {
+        list = JSON.parse(localStorage.getItem('ruimtespel_scores') || '[]');
+      } catch (e) { list = []; }
+
+      const table = document.getElementById('scoreTable');
+      const emptyMsg = document.getElementById('emptyMsg');
+      // reset behalve header
+      table.innerHTML = '<tr><th>#</th><th>Score</th><th>Level</th><th>Datum</th></tr>';
+
+      if (list.length === 0) {
+        emptyMsg.style.display = 'block';
+        return;
+      }
+      emptyMsg.style.display = 'none';
+
+      list.forEach((entry, i) => {
+        const row = document.createElement('tr');
+        const date = new Date(entry.date);
+        const dateStr = isNaN(date) ? '—' : date.toLocaleDateString('nl-NL', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        row.innerHTML = `<td>${i + 1}</td><td>${entry.score}</td><td>${entry.level}</td><td>${dateStr}</td>`;
+        table.appendChild(row);
+      });
+    }
+
+    document.getElementById('clearBtn').addEventListener('click', () => {
+      if (confirm('Weet je zeker dat je al je scores wilt wissen?')) {
+        try {
+          localStorage.removeItem('ruimtespel_scores');
+          localStorage.removeItem('ruimtespel_highscore');
+        } catch (e) {}
+        loadScores();
+      }
+    });
+
+    loadScores();
+  </script>
+
+</body>
+</html>
