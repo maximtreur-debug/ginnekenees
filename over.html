@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ruimteverdediger — Over</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="logo">🚀 Ruimteverdediger</div>
+    <nav class="main-nav">
+      <a href="index.html">Home</a>
+      <a href="spel.html">Speel het spel</a>
+      <a href="uitleg.html">Uitleg</a>
+      <a href="scores.html">Scores</a>
+      <a href="over.html" class="active">Over</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Over dit project</h1>
+    <p class="lead">
+      Ruimteverdediger is een kleine, gratis browsergame gebouwd met puur HTML, CSS
+      en JavaScript — geen frameworks, geen installaties, geen accounts nodig.
+    </p>
+
+    <h2>Techniek</h2>
+    <div class="card-grid">
+      <div class="card">
+        <h3>🖼️ HTML5 Canvas</h3>
+        <p style="color:var(--text-dim); font-size:14px;">Het spel zelf wordt getekend op een canvas-element, volledig in JavaScript.</p>
+      </div>
+      <div class="card">
+        <h3>🎨 Losse stylesheet</h3>
+        <p style="color:var(--text-dim); font-size:14px;">Eén gedeeld CSS-bestand zorgt voor een consistente look op alle pagina's.</p>
+      </div>
+      <div class="card">
+        <h3>💾 LocalStorage</h3>
+        <p style="color:var(--text-dim); font-size:14px;">Scores worden lokaal in je browser bewaard — er is geen server of database nodig.</p>
+      </div>
+    </div>
+
+    <h2>Bestandsstructuur</h2>
+    <div class="card">
+      <pre style="margin:0; font-size:13px; line-height:1.6; color:var(--text-dim); white-space:pre-wrap;">ruimte-website/
+├── index.html      (homepage)
+├── spel.html       (het spel)
+├── uitleg.html     (besturing &amp; regels)
+├── scores.html     (jouw scores)
+├── over.html       (deze pagina)
+├── css/
+│   └── style.css   (gedeelde opmaak)
+└── js/
+    └── game.js     (spellogica)</pre>
+    </div>
+
+    <p class="lead" style="margin-top:24px;">
+      Je kunt deze site direct hosten op elke statische hostingdienst, zoals
+      GitHub Pages, Netlify of Vercel — er is geen server-side code nodig.
+    </p>
+
+    <a href="spel.html" class="btn">🎮 Speel nu</a>
+  </main>
+
+  <footer class="site-footer">
+    Ruimteverdediger — gemaakt met HTML, CSS &amp; JavaScript.
+  </footer>
+
+</body>
+</html>
