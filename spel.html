@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ruimteverdediger — Speel</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="logo">🚀 Ruimteverdediger</div>
+    <nav class="main-nav">
+      <a href="index.html">Home</a>
+      <a href="spel.html" class="active">Speel het spel</a>
+      <a href="uitleg.html">Uitleg</a>
+      <a href="scores.html">Scores</a>
+      <a href="over.html">Over</a>
+    </nav>
+  </header>
+
+  <main style="max-width:820px;">
+    <h1 style="text-align:center;">Ruimteverdediger</h1>
+    <p class="lead" style="margin:0 auto 18px auto; text-align:center;">
+      Ontwijk de asteroïden, schiet ze kapot, en overleef zo lang mogelijk!
+    </p>
+
+    <div class="hud">
+      <div class="stat"><span class="label">Score</span><span class="value" id="scoreVal">0</span></div>
+      <div class="stat"><span class="label">Levens</span><span class="value" id="livesVal">3</span></div>
+      <div class="stat"><span class="label">Level</span><span class="value" id="levelVal">1</span></div>
+      <div class="stat"><span class="label">Hoogste score</span><span class="value" id="highVal">0</span></div>
+    </div>
+
+    <div id="gameWrap">
+      <canvas id="game"></canvas>
+
+      <div class="overlay" id="startOverlay">
+        <h2>Klaar voor lancering?</h2>
+        <p>Bestuur je ruimteschip met de pijltjestoetsen of WASD. Schiet met de spatiebalk.
+        Vernietig asteroïden voor punten en ontwijk botsingen — je hebt maar 3 levens!</p>
+        <button id="startBtn" class="btn">Start Spel</button>
+      </div>
+
+      <div class="overlay hidden" id="gameOverOverlay">
+        <h2>Game Over</h2>
+        <p id="finalScoreText">Je score: 0</p>
+        <button id="restartBtn" class="btn">Opnieuw Spelen</button>
+      </div>
+
+      <div class="overlay hidden" id="pauseOverlay">
+        <h2>Gepauzeerd</h2>
+        <p>Druk op P om verder te gaan.</p>
+        <button id="resumeBtn" class="btn">Verder Spelen</button>
+      </div>
+    </div>
+
+    <div class="controls-info">
+      <span><span class="key">↑↓←→</span> of <span class="key">WASD</span> bewegen</span>
+      <span><span class="key">Spatie</span> schieten</span>
+      <span><span class="key">P</span> pauzeren</span>
+    </div>
+
+    <div id="touchControls">
+      <div class="touchBtn" id="btnLeft">◀</div>
+      <div class="touchBtn" id="btnFire">🔥</div>
+      <div class="touchBtn" id="btnRight">▶</div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    Ruimteverdediger — gemaakt met HTML, CSS &amp; JavaScript.
+  </footer>
+
+  <script src="js/game.js"></script>
+</body>
+</html>
