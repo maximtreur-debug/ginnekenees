@@ -1,1002 +1,633 @@
-<<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="nl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Restaria Ginnekenees — Snackbar in Breda</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Work+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<title>Ruimte Spel</title>
 <style>
-
-  :root{
-    --paper: #F6EEDC;
-    --paper-2: #EFE3C6;
-    --ink: #2A2118;
-    --mustard: #E3A233;
-    --mustard-dark: #C4841E;
-    --maroon: #A62C28;
-    --maroon-dark: #7E1F1D;
-    --herb: #5C7A45;
-    --cream-card: #FBF6E9;
-    --line: rgba(42,33,24,0.16);
-    --radius: 4px;
+  :root {
+    --bg: #05060f;
+    --bg2: #0b0f2a;
+    --panel: rgba(255,255,255,0.06);
+    --panel-border: rgba(255,255,255,0.12);
+    --text: #f0f2ff;
+    --text-dim: #9aa0c9;
+    --accent: #6ee7ff;
+    --accent2: #ff6ee0;
+    --danger: #ff5a5a;
+    --good: #7dffb0;
+  }
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) {
+      --bg: #0a0d20;
+      --bg2: #10143a;
+      --text: #f0f2ff;
+      --text-dim: #aab0e0;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #05060f;
+    --bg2: #0b0f2a;
   }
 
-  *{ box-sizing: border-box; }
-  html{ scroll-behavior: smooth; }
+  * { box-sizing: border-box; }
 
-  body{
-    margin:0;
-    background: var(--paper);
-    color: var(--ink);
-    font-family: 'Work Sans', sans-serif;
-    -webkit-font-smoothing: antialiased;
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    overflow-x: hidden;
+    min-height: 100%;
   }
 
-  h1,h2,h3, .display{
-    font-family: 'Bungee', system-ui, sans-serif;
-    font-weight: 400;
-    letter-spacing: 0.01em;
-    line-height: 1.05;
+  body {
+    background: radial-gradient(ellipse at top, var(--bg2), var(--bg) 70%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px;
+    min-height: 100vh;
+  }
+
+  h1 {
+    font-size: clamp(20px, 4vw, 30px);
+    margin: 4px 0 2px 0;
+    letter-spacing: 1px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-align: center;
+  }
+
+  .subtitle {
+    color: var(--text-dim);
+    font-size: 13px;
+    margin-bottom: 12px;
+    text-align: center;
+  }
+
+  .hud {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 10px;
+    width: 100%;
+    max-width: 800px;
+  }
+
+  .stat {
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: 10px;
+    padding: 6px 14px;
+    font-size: 14px;
+    min-width: 90px;
+    text-align: center;
+  }
+
+  .stat .label {
+    display: block;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-dim);
+    margin-bottom: 2px;
+  }
+
+  .stat .value {
+    font-weight: 700;
+    font-size: 16px;
+  }
+
+  #gameWrap {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    aspect-ratio: 4 / 3;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--panel-border);
+    box-shadow: 0 0 40px rgba(110, 231, 255, 0.08), inset 0 0 60px rgba(0,0,0,0.5);
+    touch-action: none;
+  }
+
+  canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: #000;
+  }
+
+  .overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: rgba(3, 4, 14, 0.78);
+    backdrop-filter: blur(3px);
+    padding: 20px;
+    gap: 10px;
+  }
+
+  .overlay.hidden { display: none; }
+
+  .overlay h2 {
+    margin: 0;
+    font-size: clamp(22px, 5vw, 32px);
+    color: var(--accent);
+  }
+
+  .overlay p {
+    color: var(--text-dim);
+    max-width: 420px;
+    line-height: 1.5;
+    font-size: 14px;
     margin: 0;
   }
 
-  .mono{
-    font-family: 'JetBrains Mono', monospace;
-  }
-
-  a{ color: inherit; }
-
-  img, svg{ display:block; max-width:100%; }
-
-  .wrap{
-    max-width: 1120px;
-    margin: 0 auto;
-    padding: 0 24px;
-  }
-
-  /* ---------- checker strip, the signature motif ---------- */
-  .checker{
-    height: 14px;
-    width: 100%;
-    background-image:
-      linear-gradient(45deg, var(--ink) 25%, transparent 25%, transparent 75%, var(--ink) 75%),
-      linear-gradient(45deg, var(--ink) 25%, transparent 25%, transparent 75%, var(--ink) 75%);
-    background-size: 14px 14px;
-    background-position: 0 0, 7px 7px;
-    background-color: var(--mustard);
-  }
-  .checker.reverse{
-    background-color: var(--maroon);
-  }
-
-  /* ---------- header ---------- */
-  header{
-    position: sticky;
-    top: 0;
-    z-index: 50;
-    background: var(--paper);
-  }
-
-  .nav-row{
-    display:flex;
-    align-items:center;
-    justify-content: space-between;
-    padding: 16px 24px;
-    max-width: 1120px;
-    margin: 0 auto;
-  }
-
-  .brand{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    font-family:'Bungee';
-    font-size: 20px;
-    color: var(--maroon-dark);
-  }
-  .brand .dot{
-    width:10px; height:10px; border-radius:50%;
-    background: var(--herb);
-    box-shadow: 0 0 0 3px var(--paper), 0 0 0 4px var(--herb);
-    animation: pulse 2.4s ease-in-out infinite;
-  }
-  @keyframes pulse{
-    0%,100%{ opacity:1; }
-    50%{ opacity:0.35; }
-  }
-
-  nav ul{
-    list-style:none;
-    display:flex;
-    gap: 28px;
-    margin:0; padding:0;
-    font-size: 14px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-  }
-  nav a{
-    text-decoration:none;
-    border-bottom: 2px solid transparent;
-    padding-bottom: 3px;
-    transition: border-color .15s ease, color .15s ease;
-  }
-  nav a:hover{ border-color: var(--maroon); color: var(--maroon-dark); }
-  nav a:focus-visible{ outline: 2px solid var(--maroon); outline-offset: 3px; }
-
-  .nav-cta{
-    display: inline-block;
-    background: var(--maroon);
-    color: var(--cream-card);
+  button {
+    margin-top: 8px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border: none;
+    color: #04060f;
     font-weight: 700;
-    font-size: 13px;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    padding: 10px 18px;
-    border-radius: var(--radius);
-    text-decoration: none;
-    box-shadow: 3px 3px 0 var(--ink);
-    transition: transform .15s ease, box-shadow .15s ease;
-  }
-  .nav-cta:hover{ transform: translate(-2px,-2px); box-shadow: 5px 5px 0 var(--ink); }
-  .nav-cta:focus-visible{ outline: 2px solid var(--ink); outline-offset: 3px; }
-
-  .menu-toggle{ display:none; }
-
-  @media (max-width: 760px){
-    nav ul{ display:none; }
-    .menu-toggle{
-      display:block;
-      background:none; border: 2px solid var(--ink); border-radius: var(--radius);
-      padding: 8px 10px; font-family:'Bungee'; font-size:12px; cursor:pointer;
-    }
-    .nav-row{ flex-wrap: wrap; }
-  }
-
-  /* ---------- hero ---------- */
-  .hero{
-    position: relative;
-    background: var(--maroon);
-    color: var(--cream-card);
-    padding: 72px 0 56px;
-    overflow: hidden;
-  }
-  .hero::before{
-    content:"";
-    position:absolute; inset:0;
-    background-image: radial-gradient(circle, rgba(255,255,255,0.08) 1.5px, transparent 1.5px);
-    background-size: 22px 22px;
-    pointer-events:none;
-  }
-  .hero-grid{
-    position:relative;
-    display:grid;
-    grid-template-columns: 1.15fr 0.85fr;
-    gap: 48px;
-    align-items:center;
-  }
-  @media (max-width: 860px){
-    .hero-grid{ grid-template-columns: 1fr; }
-  }
-
-  .eyebrow-badge{
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
-    background: var(--mustard);
-    color: var(--ink);
-    font-family:'JetBrains Mono';
-    font-weight:600;
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    padding: 6px 12px;
-    border-radius: 999px;
-    margin-bottom: 22px;
-  }
-  .eyebrow-badge .blob{
-    width:7px;height:7px;border-radius:50%;background: var(--herb);
-  }
-
-  .hero h1{
-    font-size: clamp(38px, 6vw, 64px);
-    color: #fff;
-    text-shadow: 3px 3px 0 var(--maroon-dark);
-  }
-  .hero h1 span{
-    display:block;
-    color: var(--mustard);
-    text-shadow: 3px 3px 0 var(--ink);
-  }
-
-  .hero p.lede{
-    margin-top: 20px;
-    font-size: 18px;
-    max-width: 46ch;
-    color: rgba(255,255,255,0.88);
-  }
-
-  .hero-actions{
-    margin-top: 30px;
-    display:flex;
-    gap: 14px;
-    flex-wrap: wrap;
-  }
-
-  .btn-primary{
-    background: var(--mustard);
-    color: var(--ink);
-    font-weight: 700;
-    padding: 14px 26px;
-    border-radius: var(--radius);
-    text-decoration:none;
-    box-shadow: 4px 4px 0 var(--ink);
-    transition: transform .15s ease, box-shadow .15s ease;
-  }
-  .btn-primary:hover{ transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--ink); }
-  .btn-primary:focus-visible{ outline: 2px solid #fff; outline-offset: 3px; }
-
-  .btn-ghost{
-    border: 2px solid rgba(255,255,255,0.55);
-    color: #fff;
-    padding: 12px 24px;
-    border-radius: var(--radius);
-    text-decoration:none;
-    font-weight: 600;
-    transition: border-color .15s ease, background .15s ease;
-  }
-  .btn-ghost:hover{ border-color:#fff; background: rgba(255,255,255,0.08); }
-  .btn-ghost:focus-visible{ outline: 2px solid #fff; outline-offset: 3px; }
-
-  /* stamp badge — signature element */
-  .stamp{
-    position: relative;
-    justify-self: center;
-    width: 230px;
-    height: 230px;
-    border: 3px dashed rgba(255,255,255,0.75);
-    border-radius: 50%;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    color:#fff;
-    transform: rotate(-8deg);
-    animation: float 5s ease-in-out infinite;
-  }
-  @keyframes float{
-    0%,100%{ transform: rotate(-8deg) translateY(0); }
-    50%{ transform: rotate(-8deg) translateY(-8px); }
-  }
-  .stamp .score{
-    font-family:'Bungee';
-    font-size: 52px;
-    line-height: 1;
-    color: var(--mustard);
-  }
-  .stamp .stars{
-    letter-spacing: 3px;
-    margin: 8px 0 6px;
-    font-size: 18px;
-    color: var(--mustard);
-  }
-  .stamp .count{
-    font-family:'JetBrains Mono';
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    opacity: 0.85;
-  }
-  .stamp .top-label{
-    position:absolute;
-    top: 26px;
-    font-family:'JetBrains Mono';
-    font-size: 10px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    opacity: 0.8;
-  }
-  @media (prefers-reduced-motion: reduce){
-    .stamp, .brand .dot{ animation: none; }
-  }
-
-  /* ---------- info strip ---------- */
-  .info-strip{
-    background: var(--ink);
-    color: var(--paper);
-  }
-  .info-row{
-    display:grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 0;
-  }
-  @media (max-width: 760px){
-    .info-row{ grid-template-columns: repeat(2, 1fr); }
-  }
-  .info-item{
-    padding: 22px 24px;
-    border-right: 1px solid rgba(255,255,255,0.12);
-  }
-  .info-item:last-child{ border-right:none; }
-  .info-item .label{
-    font-family:'JetBrains Mono';
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--mustard);
-    margin-bottom: 6px;
-  }
-  .info-item .value{
-    font-weight: 600;
     font-size: 15px;
+    padding: 12px 28px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
   }
-  .info-item .value.open{ color: #93C572; }
 
-  /* ---------- section shell ---------- */
-  section{ padding: 84px 0; }
-  .section-head{
-    text-align:center;
-    max-width: 620px;
-    margin: 0 auto 48px;
-  }
-  .section-head .kicker{
-    font-family:'JetBrains Mono';
-    text-transform:uppercase;
-    letter-spacing: 0.14em;
-    font-size: 12px;
-    color: var(--maroon);
-    font-weight: 600;
-    margin-bottom: 10px;
-  }
-  .section-head h2{
-    font-size: clamp(28px, 4vw, 40px);
-    color: var(--ink);
-  }
-  .section-head p{
+  button:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(110,231,255,0.35); }
+  button:active { transform: translateY(0px); }
+
+  .controls-info {
     margin-top: 14px;
-    font-size: 16px;
-    color: rgba(42,33,24,0.72);
-  }
-
-  /* ---------- about ---------- */
-  .about-grid{
-    display:grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 56px;
-    align-items:center;
-  }
-  @media (max-width: 820px){ .about-grid{ grid-template-columns: 1fr; } }
-
-  .about-copy p{
-    font-size: 16px;
-    line-height: 1.7;
-    color: rgba(42,33,24,0.85);
-    margin: 0 0 16px;
-  }
-  .about-copy p:last-child{ margin-bottom:0; }
-
-  .ticket{
-    background: var(--cream-card);
-    border: 1.5px solid var(--line);
-    border-radius: var(--radius);
-    padding: 30px 26px;
-    position:relative;
-    box-shadow: 6px 6px 0 rgba(42,33,24,0.08);
-  }
-  .ticket::before, .ticket::after{
-    content:"";
-    position:absolute;
-    width: 22px; height: 22px;
-    background: var(--paper);
-    border-radius:50%;
-    top: 50%;
-    transform: translateY(-50%);
-  }
-  .ticket::before{ left: -11px; }
-  .ticket::after{ right: -11px; }
-  .ticket ul{ list-style:none; margin:0; padding:0; }
-  .ticket li{
-    display:flex;
-    justify-content:space-between;
-    padding: 10px 0;
-    border-bottom: 1px dashed var(--line);
-    font-family:'JetBrains Mono';
-    font-size: 14px;
-  }
-  .ticket li:last-child{ border-bottom:none; }
-  .ticket .tname{ color: var(--ink); font-weight: 600; }
-  .ticket .tval{ color: var(--maroon); font-weight: 700; }
-  .ticket-title{
-    font-family:'Bungee';
-    font-size: 15px;
-    text-align:center;
-    margin-bottom: 18px;
-    color: var(--maroon-dark);
-  }
-
-  /* ---------- menu ---------- */
-  .menu-tabs{
-    display:flex;
-    justify-content:center;
-    gap: 10px;
+    display: flex;
+    gap: 18px;
     flex-wrap: wrap;
-    margin-bottom: 40px;
-  }
-  .tab-btn{
-    font-family:'JetBrains Mono';
+    justify-content: center;
+    color: var(--text-dim);
     font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    font-weight:600;
-    background: var(--cream-card);
-    border: 1.5px solid var(--line);
-    color: var(--ink);
-    padding: 9px 18px;
-    border-radius: 999px;
-    cursor:pointer;
-    transition: all .15s ease;
-  }
-  .tab-btn:hover{ border-color: var(--maroon); }
-  .tab-btn.active{
-    background: var(--maroon);
-    color: var(--cream-card);
-    border-color: var(--maroon);
-  }
-  .tab-btn:focus-visible{ outline: 2px solid var(--maroon); outline-offset: 2px; }
-
-  .menu-panel{ display:none; }
-  .menu-panel.active{ display:block; }
-
-  .menu-list{
-    display:grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 18px 40px;
-  }
-  @media (max-width: 700px){ .menu-list{ grid-template-columns: 1fr; } }
-
-  .menu-item{
-    display:flex;
-    justify-content:space-between;
-    align-items: baseline;
-    gap: 14px;
-    padding: 14px 0;
-    border-bottom: 1px solid var(--line);
-  }
-  .menu-item .mi-name{
-    font-weight: 600;
-    font-size: 16px;
-  }
-  .menu-item .mi-desc{
-    font-size: 13px;
-    color: rgba(42,33,24,0.6);
-    margin-top: 3px;
-  }
-  .menu-item .mi-price{
-    font-family:'JetBrains Mono';
-    font-weight: 700;
-    color: var(--maroon);
-    white-space: nowrap;
-  }
-  .mi-left{ flex: 1; }
-  .dots{
-    flex: 0 1 30px;
-    border-bottom: 1px dotted var(--line);
-    margin-bottom: 6px;
-    display:none;
+    max-width: 800px;
+    text-align: center;
   }
 
-  .frites-table{
+  .controls-info span { white-space: nowrap; }
+  .key {
+    display: inline-block;
+    border: 1px solid var(--panel-border);
+    background: var(--panel);
+    border-radius: 5px;
+    padding: 1px 7px;
+    font-family: monospace;
+    margin: 0 2px;
+  }
+
+  /* Mobiele touch-knoppen */
+  #touchControls {
+    display: none;
     width: 100%;
-    border-collapse: collapse;
-    font-size: 15px;
+    max-width: 800px;
+    justify-content: space-between;
+    margin-top: 12px;
+    gap: 10px;
   }
-  .frites-table th{
-    font-family:'JetBrains Mono';
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    font-size: 11px;
-    color: rgba(42,33,24,0.55);
-    text-align: right;
-    padding: 0 0 10px;
-    font-weight: 600;
+  .touchBtn {
+    flex: 1;
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: 12px;
+    color: var(--text);
+    font-size: 22px;
+    padding: 16px 0;
+    user-select: none;
+    -webkit-user-select: none;
+    text-align: center;
   }
-  .frites-table th:first-child{ text-align:left; }
-  .frites-table td{
-    padding: 12px 0;
-    border-bottom: 1px solid var(--line);
-  }
-  .frites-table tr:last-child td{ border-bottom:none; }
-  .frites-table td.fname{
-    font-weight: 600;
-    text-align:left;
-  }
-  .frites-table td.fprice{
-    font-family:'JetBrains Mono';
-    text-align:right;
-    color: var(--maroon);
-    font-weight: 700;
-    white-space: nowrap;
-  }
-  .frites-table td.fprice.empty{
-    color: rgba(42,33,24,0.25);
-  }
-  .menu-note{
-    margin-top: 22px;
-    font-size: 13px;
-    color: rgba(42,33,24,0.55);
-    font-style: italic;
-  }
-  .menu-subhead{
-    font-family:'Bungee';
-    font-size: 14px;
-    color: var(--maroon-dark);
-    margin: 30px 0 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
-  }
-  .menu-subhead:first-child{ margin-top:0; }
+  .touchBtn:active { background: rgba(110,231,255,0.2); }
 
-  /* ---------- reviews ---------- */
-  .reviews-strip{ background: var(--paper-2); }
-  .review-grid{
-    display:grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
+  @media (hover: none) and (pointer: coarse) {
+    #touchControls { display: flex; }
   }
-  @media (max-width: 860px){ .review-grid{ grid-template-columns: 1fr; } }
-
-  .review-card{
-    background: var(--cream-card);
-    border-radius: var(--radius);
-    padding: 26px;
-    border: 1.5px solid var(--line);
-    position: relative;
-  }
-  .review-card .stars{
-    color: var(--mustard-dark);
-    letter-spacing: 2px;
-    margin-bottom: 12px;
-    font-size: 15px;
-  }
-  .review-card p{
-    font-size: 15px;
-    line-height: 1.6;
-    color: rgba(42,33,24,0.85);
-    margin: 0 0 16px;
-  }
-  .review-card .reviewer{
-    font-family:'JetBrains Mono';
-    font-size: 12px;
-    color: rgba(42,33,24,0.55);
-    font-weight: 600;
-  }
-
-  .rating-summary{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap: 40px;
-    margin-bottom: 44px;
-    flex-wrap: wrap;
-  }
-  .rs-num{
-    font-family:'Bungee';
-    font-size: 56px;
-    color: var(--maroon);
-  }
-  .rs-side .stars{ color: var(--mustard-dark); letter-spacing: 3px; font-size: 20px; }
-  .rs-side .count{ font-family:'JetBrains Mono'; font-size: 13px; color: rgba(42,33,24,0.6); margin-top:4px; }
-
-  /* ---------- location ---------- */
-  .location-grid{
-    display:grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 48px;
-    align-items:stretch;
-  }
-  @media (max-width: 820px){ .location-grid{ grid-template-columns: 1fr; } }
-
-  .hours-card{
-    background: var(--ink);
-    color: var(--paper);
-    border-radius: var(--radius);
-    padding: 32px;
-  }
-  .hours-card h3{
-    font-size: 18px;
-    color: var(--mustard);
-    margin-bottom: 20px;
-  }
-  .hours-row{
-    display:flex;
-    justify-content:space-between;
-    padding: 9px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-    font-size: 14px;
-    font-family:'JetBrains Mono';
-  }
-  .hours-row:last-child{ border-bottom:none; }
-  .hours-row.today{ color: var(--mustard); font-weight: 700; }
-
-  .contact-card{
-    border: 1.5px solid var(--line);
-    border-radius: var(--radius);
-    padding: 32px;
-    background: var(--cream-card);
-  }
-  .contact-card h3{
-    font-size: 18px;
-    color: var(--maroon-dark);
-    margin-bottom: 20px;
-  }
-  .contact-line{
-    display:flex;
-    gap: 12px;
-    align-items:flex-start;
-    margin-bottom: 16px;
-    font-size: 15px;
-  }
-  .contact-line:last-child{ margin-bottom:0; }
-  .contact-line .ico{
-    width: 20px; flex-shrink:0; color: var(--maroon);
-  }
-  .contact-line a{ text-decoration: underline; text-decoration-color: var(--mustard); text-underline-offset: 3px; }
-
-  /* ---------- footer ---------- */
-  footer{
-    background: var(--maroon-dark);
-    color: rgba(255,255,255,0.75);
-    padding: 40px 0;
-    text-align:center;
-    font-size: 13px;
-  }
-  footer .brand{
-    justify-content:center;
-    color: #fff;
-    margin-bottom: 10px;
-  }
-  footer .brand .dot{ box-shadow: 0 0 0 3px var(--maroon-dark), 0 0 0 4px var(--herb); }
-
-  /* reveal on scroll */
-  .reveal{
-    opacity: 0;
-    transform: translateY(18px);
-    transition: opacity .6s ease, transform .6s ease;
-  }
-  .reveal.in{ opacity: 1; transform: translateY(0); }
-  @media (prefers-reduced-motion: reduce){
-    .reveal{ opacity:1; transform:none; transition:none; }
-  }
-
 </style>
 </head>
 <body>
 
-<header>
-  <div class="nav-row">
-    <div class="brand"><span class="dot"></span> Restaria Ginnekenees</div>
-    <nav>
-      <ul>
-        <li><a href="#over">Over ons</a></li>
-        <li><a href="#menukaart">Menukaart</a></li>
-        <li><a href="#reviews">Reviews</a></li>
-        <li><a href="#locatie">Locatie</a></li>
-      </ul>
-    </nav>
-    <a class="nav-cta" href="tel:0765655174">Bel &amp; bestel</a>
-  </div>
-  <div class="checker"></div>
-</header>
+  <h1>🚀 Ruimteverdediger</h1>
+  <div class="subtitle">Ontwijk de asteroïden, schiet ze kapot, en overleef zo lang mogelijk!</div>
 
-<section class="hero" id="top">
-  <div class="wrap hero-grid">
-    <div>
-      <span class="eyebrow-badge"><span class="blob"></span> Ginneken, Breda · sinds jaren een vaste waarde</span>
-      <h1>Vers uit de friteuse.<span>Recht uit Ginneken.</span></h1>
-      <p class="lede">Bij Restaria Ginnekenees draait alles om eerlijk, vers bereid snackbar-eten: krokante frieten, huisgemaakte bamiballen en een vriendelijk gezicht achter de balie. Elke dag opnieuw.</p>
-      <div class="hero-actions">
-        <a class="btn-primary" href="#menukaart">Bekijk de menukaart</a>
-        <a class="btn-ghost" href="#locatie">Route &amp; openingstijden</a>
-      </div>
+  <div class="hud">
+    <div class="stat"><span class="label">Score</span><span class="value" id="scoreVal">0</span></div>
+    <div class="stat"><span class="label">Levens</span><span class="value" id="livesVal">3</span></div>
+    <div class="stat"><span class="label">Level</span><span class="value" id="levelVal">1</span></div>
+    <div class="stat"><span class="label">Hoogste score</span><span class="value" id="highVal">0</span></div>
+  </div>
+
+  <div id="gameWrap">
+    <canvas id="game"></canvas>
+
+    <div class="overlay" id="startOverlay">
+      <h2>Klaar voor lancering?</h2>
+      <p>Bestuur je ruimteschip met de pijltjestoetsen of WASD. Schiet met de spatiebalk.
+      Vernietig asteroïden voor punten en ontwijk botsingen — je hebt maar 3 levens!</p>
+      <button id="startBtn">Start Spel</button>
     </div>
-    <div class="stamp">
-      <span class="top-label">Google reviews</span>
-      <span class="score">4.4</span>
-      <span class="stars">★★★★☆</span>
-      <span class="count">226 beoordelingen</span>
+
+    <div class="overlay hidden" id="gameOverOverlay">
+      <h2>Game Over</h2>
+      <p id="finalScoreText">Je score: 0</p>
+      <button id="restartBtn">Opnieuw Spelen</button>
+    </div>
+
+    <div class="overlay hidden" id="pauseOverlay">
+      <h2>Gepauzeerd</h2>
+      <p>Druk op P om verder te gaan.</p>
+      <button id="resumeBtn">Verder Spelen</button>
     </div>
   </div>
-</section>
 
-<div class="info-strip">
-  <div class="wrap info-row">
-    <div class="info-item">
-      <div class="label">Vandaag</div>
-      <div class="value open">Open · sluit om 21:00</div>
-    </div>
-    <div class="info-item">
-      <div class="label">Prijsklasse</div>
-      <div class="value">€1 – €10 per persoon</div>
-    </div>
-    <div class="info-item">
-      <div class="label">Service</div>
-      <div class="value">Eten in de zaak · Afhalen · Bezorgen</div>
-    </div>
-    <div class="info-item">
-      <div class="label">Telefoon</div>
-      <div class="value"><a href="tel:0765655174">076 565 5174</a></div>
-    </div>
+  <div class="controls-info">
+    <span><span class="key">↑↓←→</span> of <span class="key">WASD</span> bewegen</span>
+    <span><span class="key">Spatie</span> schieten</span>
+    <span><span class="key">P</span> pauzeren</span>
   </div>
-</div>
 
-<section id="over">
-  <div class="wrap about-grid">
-    <div class="about-copy reveal">
-      <div class="section-head" style="text-align:left; margin:0 0 24px;">
-        <div class="kicker">Over de zaak</div>
-        <h2>Een buurtplek met een vaste kern van fans</h2>
-      </div>
-      <p>Restaria Ginnekenees zit aan de Prins Hendrikstraat, midden in de wijk Ginneken, en is voor veel buurtbewoners al jaren hét adres voor een snelle, goede hap. Klanten roemen keer op keer de gulle portie friet voor een scherpe prijs en de vriendelijke bediening.</p>
-      <p>De frieten worden vers gebakken en zijn volgens vaste bezoekers van de betere kwaliteit die je in de stad kunt vinden. Ook de kip-burgers en snacks van eigen bereiding, zoals de bamibal, worden veel geprezen.</p>
-      <p>Kortom: geen poespas, gewoon eerlijk snackbar-eten, klaargemaakt door mensen die trots zijn op wat ze serveren.</p>
-    </div>
-    <div class="ticket reveal">
-      <div class="ticket-title">— WAAR KLANTEN OM TERUGKOMEN —</div>
-      <ul>
-        <li><span class="tname">Portie frites</span><span class="tval">Gul &amp; vers</span></li>
-        <li><span class="tname">Bamibal</span><span class="tval">Huisgemaakt</span></li>
-        <li><span class="tname">Kipburger</span><span class="tval">Publieksfavoriet</span></li>
-        <li><span class="tname">Bediening</span><span class="tval">Vriendelijk</span></li>
-        <li><span class="tname">Beoordeling</span><span class="tval">4.4 / 5</span></li>
-      </ul>
-    </div>
+  <div id="touchControls">
+    <div class="touchBtn" id="btnLeft">◀</div>
+    <div class="touchBtn" id="btnFire">🔥</div>
+    <div class="touchBtn" id="btnRight">▶</div>
   </div>
-</section>
-
-<div class="checker reverse"></div>
-
-<section id="menukaart" style="background: var(--paper-2);">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <div class="kicker">Menukaart</div>
-      <h2>Snackbar-klassiekers, vers gemaakt</h2>
-      <p>Een greep uit wat er dagelijks uit onze friteuse en keuken komt.</p>
-    </div>
-
-    <div class="menu-tabs reveal" role="tablist">
-      <button class="tab-btn active" data-tab="friet">Frites</button>
-      <button class="tab-btn" data-tab="snacks">Snacks &amp; kroketten</button>
-      <button class="tab-btn" data-tab="burgers">Broodjes</button>
-      <button class="tab-btn" data-tab="schotels">Schotels &amp; Chinees</button>
-      <button class="tab-btn" data-tab="sauzen">Sauzen</button>
-    </div>
-
-    <div class="menu-panel active" id="friet">
-      <table class="frites-table">
-        <thead>
-          <tr><th>Frites</th><th>Klein</th><th>Middel</th><th>Groot</th></tr>
-        </thead>
-        <tbody>
-          <tr><td class="fname">Frites zonder</td><td class="fprice">3,10</td><td class="fprice">3,70</td><td class="fprice">4,70</td></tr>
-          <tr><td class="fname">Frites mayonaise</td><td class="fprice">3,70</td><td class="fprice">4,10</td><td class="fprice">5,10</td></tr>
-          <tr><td class="fname">Frites speciaal</td><td class="fprice">4,20</td><td class="fprice">4,90</td><td class="fprice">5,70</td></tr>
-          <tr><td class="fname">Frites joppiesaus</td><td class="fprice">4,20</td><td class="fprice">4,90</td><td class="fprice">5,70</td></tr>
-          <tr><td class="fname">Frites tartaarsaus</td><td class="fprice">4,20</td><td class="fprice">4,90</td><td class="fprice">5,70</td></tr>
-          <tr><td class="fname">Frites piccalilly</td><td class="fprice">4,20</td><td class="fprice">4,90</td><td class="fprice">5,70</td></tr>
-          <tr><td class="fname">Frites satésaus</td><td class="fprice">4,70</td><td class="fprice">5,40</td><td class="fprice">6,20</td></tr>
-          <tr><td class="fname">Frites oorlog</td><td class="fprice">5,60</td><td class="fprice">6,30</td><td class="fprice">7,40</td></tr>
-          <tr><td class="fname">Frites stoofvlees</td><td class="fprice">7,10</td><td class="fprice">8,40</td><td class="fprice">9,50</td></tr>
-          <tr><td class="fname">Kapsalon</td><td class="fprice empty">—</td><td class="fprice">9,50</td><td class="fprice">10,20</td></tr>
-        </tbody>
-      </table>
-      <p class="menu-note">Alle frieten worden dagelijks vers gebakken.</p>
-    </div>
-
-    <div class="menu-panel" id="snacks">
-      <div class="menu-subhead">Frikandellen &amp; kroketten</div>
-      <div class="menu-list">
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Frikandel</div></div><div class="mi-price">€ 2,50</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Frikandel speciaal</div></div><div class="mi-price">€ 3,30</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">XXL Frikandel</div></div><div class="mi-price">€ 4,50</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Kroket vlees</div></div><div class="mi-price">€ 2,50</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Kroket goulash</div></div><div class="mi-price">€ 2,70</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Groentenkroket</div></div><div class="mi-price">€ 2,80</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Saté- / kalfskroket</div></div><div class="mi-price">€ 3,00</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Rundvleeskroket</div></div><div class="mi-price">€ 3,00</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Kaas- / hamkaassoufflé</div></div><div class="mi-price">€ 2,80</div></div>
-      </div>
-
-      <div class="menu-subhead">Overige snacks</div>
-      <div class="menu-list">
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Gehaktbal / bonkie</div></div><div class="mi-price">€ 3,10</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Gehaktbal (jus)</div></div><div class="mi-price">€ 3,10</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Berenklauw</div></div><div class="mi-price">€ 3,40</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Nasibal / bamibal</div></div><div class="mi-price">€ 3,10</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Bamischijf</div></div><div class="mi-price">€ 2,80</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Viandel</div></div><div class="mi-price">€ 2,90</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Kipcorn</div></div><div class="mi-price">€ 2,90</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Kaas kipcorn</div></div><div class="mi-price">€ 3,00</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Mexicano</div></div><div class="mi-price">€ 3,10</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Combi stick</div></div><div class="mi-price">€ 3,40</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Sitostick</div></div><div class="mi-price">€ 3,50</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Crizly</div></div><div class="mi-price">€ 3,60</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Smulrol / saterol</div></div><div class="mi-price">€ 3,30</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Shoarmarol</div></div><div class="mi-price">€ 3,40</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Knakworst</div></div><div class="mi-price">€ 2,30</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Kipnuggets</div></div><div class="mi-price">€ 3,70</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Kipfingers</div></div><div class="mi-price">€ 3,70</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Vlammetjes</div></div><div class="mi-price">€ 4,30</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Hot wings</div></div><div class="mi-price">€ 4,30</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">America chicken tenders</div></div><div class="mi-price">€ 4,60</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Bitterballen</div></div><div class="mi-price">€ 3,30</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Loempia</div></div><div class="mi-price">€ 4,70</div></div>
-      </div>
-    </div>
-
-    <div class="menu-panel" id="burgers">
-      <div class="menu-list">
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Br. frikandel / kroket</div></div><div class="mi-price">€ 3,30</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Br. ham / br. kaas</div></div><div class="mi-price">€ 2,70</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Br. filet american</div></div><div class="mi-price">€ 3,90</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Br. tartaar</div></div><div class="mi-price">€ 3,90</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Br. pulled pork</div></div><div class="mi-price">€ 4,60</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Br. kipfilet</div></div><div class="mi-price">€ 6,00</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Br. crispy chicken burger</div></div><div class="mi-price">€ 5,75</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Br. hamburger</div></div><div class="mi-price">€ 5,60</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Br. cheeseburger</div></div><div class="mi-price">€ 6,70</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Br. Ginnekenees burger</div></div><div class="mi-price">€ 7,30</div></div>
-      </div>
-    </div>
-
-    <div class="menu-panel" id="schotels">
-      <div class="menu-subhead">Shaslik &amp; saté</div>
-      <div class="menu-list">
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Shaslik</div></div><div class="mi-price">€ 7,00</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Saté kip</div></div><div class="mi-price">€ 8,00</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Saté varkenshaas</div></div><div class="mi-price">€ 8,50</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Spare-ribs</div></div><div class="mi-price">€ 9,50</div></div>
-      </div>
-
-      <div class="menu-subhead">Schotels</div>
-      <div class="menu-list">
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Kip-saté, stokbrood</div></div><div class="mi-price">€ 9,20</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Kip-saté, frites</div></div><div class="mi-price">€ 11,30</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Varkenshaas-saté, stokbrood</div></div><div class="mi-price">€ 9,70</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Varkenshaas-saté, frites</div></div><div class="mi-price">€ 11,80</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Schnitzel, frites</div></div><div class="mi-price">€ 9,20</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Spare-ribs, frites</div></div><div class="mi-price">€ 12,60</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Ginnekenees menu</div></div><div class="mi-price">€ 11,30</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Shoarma-frites</div></div><div class="mi-price">€ 11,20</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Stokbrood extra</div></div><div class="mi-price">€ 1,20</div></div>
-      </div>
-
-      <div class="menu-subhead">Chinese gerechten</div>
-      <div class="menu-list">
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Vegetarische mini loempia's</div></div><div class="mi-price">€ 3,20</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Nasi / bami schotel</div></div><div class="mi-price">€ 7,00</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Babi pangang</div><div class="mi-desc">Incl. nasi of bami</div></div><div class="mi-price">€ 11,00</div></div>
-      </div>
-    </div>
-
-    <div class="menu-panel" id="sauzen">
-      <div class="menu-list">
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Stoofvlees</div><div class="mi-desc">Beker</div></div><div class="mi-price">€ 4,10</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Mayonaise</div><div class="mi-desc">Beker</div></div><div class="mi-price">€ 2,30</div></div>
-        <div class="menu-item"><div class="mi-left"><div class="mi-name">Satésaus</div><div class="mi-desc">Beker</div></div><div class="mi-price">€ 3,30</div></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="reviews-strip" id="reviews">
-  <section>
-    <div class="wrap">
-      <div class="section-head reveal">
-        <div class="kicker">Reviews</div>
-        <h2>Wat vaste klanten zeggen</h2>
-      </div>
-
-      <div class="rating-summary reveal">
-        <div class="rs-num">4.4</div>
-        <div class="rs-side">
-          <div class="stars">★★★★☆</div>
-          <div class="count">Gebaseerd op 226 Google-reviews</div>
-        </div>
-      </div>
-
-      <div class="review-grid reveal">
-        <div class="review-card">
-          <div class="stars">★★★★★</div>
-          <p>Een royale hoeveelheid friet voor een mooie prijs, en de kipburger viel bijzonder goed in de smaak. De bediening werd omschreven als bijzonder vriendelijk.</p>
-          <div class="reviewer">Local Guide · 228 reviews</div>
-        </div>
-        <div class="review-card">
-          <div class="stars">★★★★★</div>
-          <p>De frieten worden geroemd om hun versheid, en het personeel wordt bedankt voor de vriendelijke ontvangst — een plek waar bezoekers graag terugkomen.</p>
-          <div class="reviewer">Local Guide · 149 reviews</div>
-        </div>
-        <div class="review-card">
-          <div class="stars">★★★★★</div>
-          <p>Volgens deze bezoeker horen de frieten hier tot de beste van de hele stad — een compliment dat vaker terugkomt in de reviews.</p>
-          <div class="reviewer">Local Guide · 8 reviews</div>
-        </div>
-      </div>
-    </div>
-  </section>
-</div>
-
-<div class="checker"></div>
-
-<section id="locatie">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <div class="kicker">Locatie &amp; tijden</div>
-      <h2>Loop binnen in Ginneken</h2>
-    </div>
-
-    <div class="location-grid reveal">
-      <div class="hours-card">
-        <h3>Openingstijden</h3>
-        <div class="hours-row"><span>Maandag</span><span>12:00 – 21:00</span></div>
-        <div class="hours-row"><span>Dinsdag</span><span>12:00 – 21:00</span></div>
-        <div class="hours-row today"><span>Woensdag</span><span>12:00 – 21:00</span></div>
-        <div class="hours-row"><span>Donderdag</span><span>12:00 – 21:00</span></div>
-        <div class="hours-row"><span>Vrijdag</span><span>12:00 – 21:00</span></div>
-        <div class="hours-row"><span>Zaterdag</span><span>12:00 – 21:00</span></div>
-        <div class="hours-row"><span>Zondag</span><span>12:00 – 21:00</span></div>
-      </div>
-
-      <div class="contact-card">
-        <h3>Contact &amp; adres</h3>
-        <div class="contact-line">
-          <span class="ico">📍</span>
-          <span>Prins Hendrikstraat 141<br>4835 PN Breda</span>
-        </div>
-        <div class="contact-line">
-          <span class="ico">📞</span>
-          <span><a href="tel:0765655174">076 565 5174</a></span>
-        </div>
-        <div class="contact-line">
-          <span class="ico">🌐</span>
-          <span><a href="https://restariaginnekenees.nl" target="_blank" rel="noopener">restariaginnekenees.nl</a></span>
-        </div>
-        <div class="contact-line">
-          <span class="ico">🚗</span>
-          <span>Eten in de zaak, afhalen of laten bezorgen — kies wat jou uitkomt.</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <div class="wrap">
-    <div class="brand"><span class="dot"></span> Restaria Ginnekenees</div>
-    <p>Prins Hendrikstraat 141, 4835 PN Breda · 076 565 5174</p>
-  </div>
-</footer>
 
 <script>
-  // menu tabs
-  document.querySelectorAll('.tab-btn').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-      document.querySelectorAll('.menu-panel').forEach(p=>p.classList.remove('active'));
-      btn.classList.add('active');
-      document.getElementById(btn.dataset.tab).classList.add('active');
+(function() {
+  const canvas = document.getElementById('game');
+  const ctx = canvas.getContext('2d');
+  const scoreVal = document.getElementById('scoreVal');
+  const livesVal = document.getElementById('livesVal');
+  const levelVal = document.getElementById('levelVal');
+  const highVal = document.getElementById('highVal');
+  const startOverlay = document.getElementById('startOverlay');
+  const gameOverOverlay = document.getElementById('gameOverOverlay');
+  const pauseOverlay = document.getElementById('pauseOverlay');
+  const finalScoreText = document.getElementById('finalScoreText');
+  const startBtn = document.getElementById('startBtn');
+  const restartBtn = document.getElementById('restartBtn');
+  const resumeBtn = document.getElementById('resumeBtn');
+
+  let W, H, DPR;
+  function resize() {
+    DPR = Math.min(window.devicePixelRatio || 1, 2);
+    const rect = canvas.getBoundingClientRect();
+    W = rect.width;
+    H = rect.height;
+    canvas.width = W * DPR;
+    canvas.height = H * DPR;
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  }
+  window.addEventListener('resize', resize);
+
+  let HIGH_SCORE = 0;
+  try {
+    const stored = localStorage.getItem('ruimtespel_highscore');
+    if (stored) HIGH_SCORE = parseInt(stored, 10) || 0;
+  } catch (e) { /* localStorage niet beschikbaar */ }
+  highVal.textContent = HIGH_SCORE;
+
+  let state = 'start'; // start, playing, paused, over
+  let score = 0, lives = 3, level = 1;
+  let ship, bullets, asteroids, particles, stars, keys;
+  let spawnTimer = 0, frame = 0;
+
+  function initGame() {
+    ship = {
+      x: W / 2, y: H - 60, w: 30, h: 30,
+      speed: 4.5, cooldown: 0
+    };
+    bullets = [];
+    asteroids = [];
+    particles = [];
+    keys = {};
+    score = 0; lives = 3; level = 1;
+    spawnTimer = 0; frame = 0;
+    stars = [];
+    for (let i = 0; i < 80; i++) {
+      stars.push({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        r: Math.random() * 1.6 + 0.3,
+        speed: Math.random() * 0.6 + 0.2
+      });
+    }
+    updateHUD();
+  }
+
+  function updateHUD() {
+    scoreVal.textContent = score;
+    livesVal.textContent = lives;
+    levelVal.textContent = level;
+  }
+
+  function spawnAsteroid() {
+    const size = Math.random() * 22 + 16;
+    asteroids.push({
+      x: Math.random() * (W - size) + size / 2,
+      y: -size,
+      w: size,
+      vy: (Math.random() * 0.8 + 0.7) * (1 + level * 0.12),
+      vx: (Math.random() - 0.5) * 1.2,
+      rot: Math.random() * Math.PI * 2,
+      vrot: (Math.random() - 0.5) * 0.05,
+      hp: size > 30 ? 2 : 1
     });
+  }
+
+  function spawnParticles(x, y, color, count) {
+    for (let i = 0; i < count; i++) {
+      particles.push({
+        x, y,
+        vx: (Math.random() - 0.5) * 4,
+        vy: (Math.random() - 0.5) * 4,
+        life: 30 + Math.random() * 20,
+        maxLife: 50,
+        color
+      });
+    }
+  }
+
+  function rectsOverlap(a, b) {
+    return Math.abs(a.x - b.x) < (a.w + b.w) / 2 &&
+           Math.abs(a.y - b.y) < (a.h + b.w) / 2;
+  }
+
+  function update() {
+    frame++;
+
+    // Sterren bewegen
+    stars.forEach(s => {
+      s.y += s.speed;
+      if (s.y > H) { s.y = 0; s.x = Math.random() * W; }
+    });
+
+    // Schip beweging
+    const left = keys['ArrowLeft'] || keys['a'] || keys['A'];
+    const right = keys['ArrowRight'] || keys['d'] || keys['D'];
+    const up = keys['ArrowUp'] || keys['w'] || keys['W'];
+    const down = keys['ArrowDown'] || keys['s'] || keys['S'];
+
+    if (left) ship.x -= ship.speed;
+    if (right) ship.x += ship.speed;
+    if (up) ship.y -= ship.speed;
+    if (down) ship.y += ship.speed;
+
+    ship.x = Math.max(ship.w / 2, Math.min(W - ship.w / 2, ship.x));
+    ship.y = Math.max(ship.h / 2, Math.min(H - ship.h / 2, ship.y));
+
+    if (ship.cooldown > 0) ship.cooldown--;
+    if ((keys[' '] || keys['Spacebar']) && ship.cooldown === 0) {
+      bullets.push({ x: ship.x, y: ship.y - ship.h / 2, w: 4, h: 12, vy: -8 });
+      ship.cooldown = 10;
+    }
+
+    // Kogels
+    bullets.forEach(b => b.y += b.vy);
+    bullets = bullets.filter(b => b.y > -20);
+
+    // Asteroïden spawnen (moeilijkheid stijgt met level)
+    spawnTimer++;
+    const spawnRate = Math.max(22, 55 - level * 4);
+    if (spawnTimer > spawnRate) {
+      spawnTimer = 0;
+      spawnAsteroid();
+    }
+
+    // Asteroïden bewegen
+    asteroids.forEach(a => {
+      a.y += a.vy;
+      a.x += a.vx;
+      a.rot += a.vrot;
+    });
+
+    // Botsing: kogel vs asteroïde
+    for (let i = asteroids.length - 1; i >= 0; i--) {
+      const a = asteroids[i];
+      for (let j = bullets.length - 1; j >= 0; j--) {
+        const b = bullets[j];
+        const dx = a.x - b.x, dy = a.y - b.y;
+        if (Math.sqrt(dx * dx + dy * dy) < a.w / 2 + 6) {
+          bullets.splice(j, 1);
+          a.hp--;
+          spawnParticles(b.x, b.y, '#6ee7ff', 4);
+          if (a.hp <= 0) {
+            score += Math.round(a.w);
+            spawnParticles(a.x, a.y, '#ff6ee0', 10);
+            asteroids.splice(i, 1);
+          }
+          break;
+        }
+      }
+    }
+
+    // Botsing: schip vs asteroïde
+    for (let i = asteroids.length - 1; i >= 0; i--) {
+      const a = asteroids[i];
+      const dx = a.x - ship.x, dy = a.y - ship.y;
+      if (Math.sqrt(dx * dx + dy * dy) < a.w / 2 + ship.w / 2 - 4) {
+        asteroids.splice(i, 1);
+        spawnParticles(ship.x, ship.y, '#ff5a5a', 16);
+        lives--;
+        updateHUD();
+        if (lives <= 0) {
+          endGame();
+          return;
+        }
+      }
+    }
+
+    // Asteroïden die buiten beeld vallen
+    asteroids = asteroids.filter(a => a.y < H + 50);
+
+    // Deeltjes
+    particles.forEach(p => { p.x += p.vx; p.y += p.vy; p.life--; });
+    particles = particles.filter(p => p.life > 0);
+
+    // Level omhoog elke 400 punten
+    const newLevel = Math.floor(score / 400) + 1;
+    if (newLevel !== level) { level = newLevel; }
+
+    updateHUD();
+  }
+
+  function drawShip() {
+    ctx.save();
+    ctx.translate(ship.x, ship.y);
+    ctx.beginPath();
+    ctx.moveTo(0, -ship.h / 2);
+    ctx.lineTo(ship.w / 2, ship.h / 2);
+    ctx.lineTo(0, ship.h / 3);
+    ctx.lineTo(-ship.w / 2, ship.h / 2);
+    ctx.closePath();
+    const grad = ctx.createLinearGradient(0, -ship.h / 2, 0, ship.h / 2);
+    grad.addColorStop(0, '#6ee7ff');
+    grad.addColorStop(1, '#3450c9');
+    ctx.fillStyle = grad;
+    ctx.fill();
+    // vlam
+    if (frame % 6 < 3) {
+      ctx.beginPath();
+      ctx.moveTo(-6, ship.h / 2);
+      ctx.lineTo(0, ship.h / 2 + 10 + Math.random() * 6);
+      ctx.lineTo(6, ship.h / 2);
+      ctx.closePath();
+      ctx.fillStyle = '#ffb84d';
+      ctx.fill();
+    }
+    ctx.restore();
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+
+    // achtergrond sterren
+    ctx.fillStyle = '#ffffff';
+    stars.forEach(s => {
+      ctx.globalAlpha = 0.7;
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fill();
+    });
+    ctx.globalAlpha = 1;
+
+    // asteroïden
+    asteroids.forEach(a => {
+      ctx.save();
+      ctx.translate(a.x, a.y);
+      ctx.rotate(a.rot);
+      ctx.beginPath();
+      const spikes = 8;
+      for (let i = 0; i < spikes; i++) {
+        const ang = (i / spikes) * Math.PI * 2;
+        const r = a.w / 2 * (0.8 + (i % 2 === 0 ? 0.2 : 0));
+        ctx.lineTo(Math.cos(ang) * r, Math.sin(ang) * r);
+      }
+      ctx.closePath();
+      ctx.fillStyle = a.hp > 1 ? '#a97c50' : '#8a6a4a';
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(0,0,0,0.4)';
+      ctx.stroke();
+      ctx.restore();
+    });
+
+    // kogels
+    ctx.fillStyle = '#6ee7ff';
+    bullets.forEach(b => {
+      ctx.fillRect(b.x - b.w / 2, b.y - b.h / 2, b.w, b.h);
+    });
+
+    // deeltjes
+    particles.forEach(p => {
+      ctx.globalAlpha = p.life / p.maxLife;
+      ctx.fillStyle = p.color;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, 2.5, 0, Math.PI * 2);
+      ctx.fill();
+    });
+    ctx.globalAlpha = 1;
+
+    drawShip();
+  }
+
+  function loop() {
+    if (state === 'playing') {
+      update();
+      draw();
+    }
+    requestAnimationFrame(loop);
+  }
+
+  function endGame() {
+    state = 'over';
+    if (score > HIGH_SCORE) {
+      HIGH_SCORE = score;
+      try { localStorage.setItem('ruimtespel_highscore', String(HIGH_SCORE)); } catch (e) {}
+      highVal.textContent = HIGH_SCORE;
+    }
+    finalScoreText.textContent = `Je score: ${score} — Level ${level}`;
+    gameOverOverlay.classList.remove('hidden');
+  }
+
+  function startGame() {
+    resize();
+    initGame();
+    state = 'playing';
+    startOverlay.classList.add('hidden');
+    gameOverOverlay.classList.add('hidden');
+    pauseOverlay.classList.add('hidden');
+  }
+
+  // Besturing
+  window.addEventListener('keydown', (e) => {
+    keys[e.key] = true;
+    if (e.key === ' ') e.preventDefault();
+    if ((e.key === 'p' || e.key === 'P') && state !== 'start' && state !== 'over') {
+      togglePause();
+    }
   });
+  window.addEventListener('keyup', (e) => { keys[e.key] = false; });
 
-  // scroll reveal
-  const io = new IntersectionObserver((entries)=>{
-    entries.forEach(e=>{
-      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
-    });
-  }, { threshold: 0.15 });
-  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+  function togglePause() {
+    if (state === 'playing') {
+      state = 'paused';
+      pauseOverlay.classList.remove('hidden');
+    } else if (state === 'paused') {
+      state = 'playing';
+      pauseOverlay.classList.add('hidden');
+    }
+  }
+
+  startBtn.addEventListener('click', startGame);
+  restartBtn.addEventListener('click', startGame);
+  resumeBtn.addEventListener('click', togglePause);
+
+  // Touch besturing (mobiel)
+  const btnLeft = document.getElementById('btnLeft');
+  const btnRight = document.getElementById('btnRight');
+  const btnFire = document.getElementById('btnFire');
+
+  function bindTouch(el, key) {
+    el.addEventListener('touchstart', (e) => { e.preventDefault(); keys[key] = true; }, {passive: false});
+    el.addEventListener('touchend', (e) => { e.preventDefault(); keys[key] = false; }, {passive: false});
+    el.addEventListener('mousedown', () => { keys[key] = true; });
+    el.addEventListener('mouseup', () => { keys[key] = false; });
+    el.addEventListener('mouseleave', () => { keys[key] = false; });
+  }
+  bindTouch(btnLeft, 'ArrowLeft');
+  bindTouch(btnRight, 'ArrowRight');
+  bindTouch(btnFire, ' ');
+
+  // Ook slepen met vinger direct op canvas
+  let touchActive = false;
+  canvas.addEventListener('touchmove', (e) => {
+    if (state !== 'playing') return;
+    e.preventDefault();
+    const rect = canvas.getBoundingClientRect();
+    const t = e.touches[0];
+    ship.x = t.clientX - rect.left;
+    ship.y = t.clientY - rect.top;
+  }, {passive: false});
+
+  resize();
+  initGame();
+  draw();
+  requestAnimationFrame(loop);
+})();
 </script>
-
 </body>
 </html>
