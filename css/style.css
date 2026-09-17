@@ -1,0 +1,284 @@
+:root {
+  --bg: #05060f;
+  --bg2: #0b0f2a;
+  --panel: rgba(255,255,255,0.06);
+  --panel-border: rgba(255,255,255,0.12);
+  --text: #f0f2ff;
+  --text-dim: #9aa0c9;
+  --accent: #6ee7ff;
+  --accent2: #ff6ee0;
+  --danger: #ff5a5a;
+  --good: #7dffb0;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  min-height: 100%;
+}
+
+body {
+  background: radial-gradient(ellipse at top, var(--bg2), var(--bg) 70%);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ---------- Navigatie ---------- */
+header.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 24px;
+  border-bottom: 1px solid var(--panel-border);
+  background: rgba(5,6,15,0.7);
+  backdrop-filter: blur(6px);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.logo {
+  font-weight: 800;
+  font-size: 18px;
+  letter-spacing: 1px;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+nav.main-nav {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+nav.main-nav a {
+  color: var(--text-dim);
+  font-size: 14px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+nav.main-nav a:hover {
+  background: var(--panel);
+  color: var(--text);
+  text-decoration: none;
+}
+
+nav.main-nav a.active {
+  background: var(--panel);
+  color: var(--accent);
+  border: 1px solid var(--panel-border);
+}
+
+/* ---------- Algemene layout ---------- */
+main {
+  flex: 1;
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 32px 20px 60px 20px;
+}
+
+footer.site-footer {
+  text-align: center;
+  padding: 20px;
+  color: var(--text-dim);
+  font-size: 12px;
+  border-top: 1px solid var(--panel-border);
+}
+
+h1 {
+  font-size: clamp(26px, 5vw, 40px);
+  margin: 4px 0 8px 0;
+  letter-spacing: 0.5px;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+h2 {
+  font-size: clamp(20px, 3.5vw, 26px);
+  margin-top: 36px;
+  color: var(--text);
+}
+
+p.lead {
+  color: var(--text-dim);
+  font-size: 16px;
+  line-height: 1.6;
+  max-width: 640px;
+}
+
+.card {
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  border-radius: 14px;
+  padding: 20px;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.btn {
+  display: inline-block;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  border: none;
+  color: #04060f;
+  font-weight: 700;
+  font-size: 15px;
+  padding: 13px 30px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  text-decoration: none;
+}
+.btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(110,231,255,0.35); text-decoration: none; }
+.btn:active { transform: translateY(0px); }
+
+.btn-outline {
+  background: transparent;
+  border: 1px solid var(--panel-border);
+  color: var(--text);
+}
+
+table.key-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+}
+table.key-table th, table.key-table td {
+  text-align: left;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--panel-border);
+  font-size: 14px;
+}
+table.key-table th { color: var(--text-dim); font-weight: 600; }
+
+.key {
+  display: inline-block;
+  border: 1px solid var(--panel-border);
+  background: var(--panel);
+  border-radius: 5px;
+  padding: 1px 8px;
+  font-family: monospace;
+  margin: 0 2px;
+}
+
+/* ---------- Spelpagina ---------- */
+.hud {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+
+.stat {
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  border-radius: 10px;
+  padding: 6px 14px;
+  font-size: 14px;
+  min-width: 90px;
+  text-align: center;
+}
+.stat .label {
+  display: block;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-dim);
+  margin-bottom: 2px;
+}
+.stat .value { font-weight: 700; font-size: 16px; }
+
+#gameWrap {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  aspect-ratio: 4 / 3;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--panel-border);
+  box-shadow: 0 0 40px rgba(110, 231, 255, 0.08), inset 0 0 60px rgba(0,0,0,0.5);
+  touch-action: none;
+}
+
+canvas { display: block; width: 100%; height: 100%; background: #000; }
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: rgba(3, 4, 14, 0.82);
+  backdrop-filter: blur(3px);
+  padding: 20px;
+  gap: 10px;
+}
+.overlay.hidden { display: none; }
+.overlay h2 { margin: 0; font-size: clamp(22px, 5vw, 32px); color: var(--accent); }
+.overlay p { color: var(--text-dim); max-width: 420px; line-height: 1.5; font-size: 14px; margin: 0; }
+
+.controls-info {
+  margin-top: 14px;
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  justify-content: center;
+  color: var(--text-dim);
+  font-size: 12px;
+  max-width: 800px;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#touchControls {
+  display: none;
+  width: 100%;
+  max-width: 800px;
+  margin: 12px auto 0 auto;
+  justify-content: space-between;
+  gap: 10px;
+}
+.touchBtn {
+  flex: 1;
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  border-radius: 12px;
+  color: var(--text);
+  font-size: 22px;
+  padding: 16px 0;
+  user-select: none;
+  -webkit-user-select: none;
+  text-align: center;
+}
+.touchBtn:active { background: rgba(110,231,255,0.2); }
+
+@media (hover: none) and (pointer: coarse) {
+  #touchControls { display: flex; }
+}
